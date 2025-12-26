@@ -3,6 +3,7 @@ package oopsandds.day14.practice;
 public class MyStack<T extends Comparable<T>> {
     MyLinkedList<T> list = new MyLinkedList<>();
 
+    //UC1
     public void push(T data) {
         list.addFirst(data);
     }
@@ -15,6 +16,7 @@ public class MyStack<T extends Comparable<T>> {
         return list.head == null;
     }
 
+    // UC2
     public T peek() {
         if (list.head == null) {
             System.out.println("Stack is empty");
@@ -23,6 +25,7 @@ public class MyStack<T extends Comparable<T>> {
         return list.head.getData();
     }
 
+    // UC2
     public T pop() {
         return list.pop();
     }
