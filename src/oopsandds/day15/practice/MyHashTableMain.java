@@ -31,5 +31,15 @@ public class MyHashTableMain {
                 map2.put(word, value + 1);
         }
         map2.display();
+
+        System.out.println("=== UC3 : Remove 'avoidable' ===");
+        boolean removed = map2.remove("avoidable");
+        if (removed) {
+            System.out.println("Word 'avoidable' removed successfully");
+        } else {
+            System.out.println("Word 'avoidable' not found");
+        }
+        System.out.println("After Removing:");
+        map2.display();
     }
 }

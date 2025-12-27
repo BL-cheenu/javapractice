@@ -71,5 +71,26 @@ public class MyHashTable<K, V> {
         }
     }
 
+    public boolean remove(K key) {
+        int index = getIndex(key);
+
+        MyMapNode<K, V> head = bucket.get(index);
+        if (head == null) {
+            return false;
+        }
+        if (head.getKey().equals(key)) {
+            bucket.set(index, head.next);
+            return true;
+        }
+        MyMapNode<K, V> temp = head;
+        while (temp.next != null) {
+            if (temp.next.getKey().equals(key)) {
+                temp.next = temp.next.next;
+                return true;
+            }
+            temp = temp.next;
+        }
+        return false;
+    }
 }
 
