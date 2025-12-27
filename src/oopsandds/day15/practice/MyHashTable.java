@@ -1,28 +1,37 @@
 package oopsandds.day15.practice;
 
 
-public class MyHashTable<K, V> {
-    MyMapNode<K, V> head;
+import java.util.ArrayList;
 
-    public V get(K key) {
-        MyMapNode<K, V> temp = head;
-        while (temp != null) {
-            if (temp.getKey().equals(key)) {
-                return temp.getValue();
-            }
-            temp = temp.next;
+public class MyHashTable<K, V> {
+
+    private final int size = 10;
+    private ArrayList<MyMapNode<K, V>> bucket;
+
+
+    public MyHashTable() {
+        bucket = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            bucket.add(null);
         }
-        return null;
     }
 
+    public int getIndex(K key) {
+        return Math.abs(key.hashCode()) % size;
+    }
+
+    // UC1 + UC2
     public void put(K key, V value) {
+        int index = getIndex(key);
+
+        MyMapNode<K, V> head = bucket.get(index);
         if (head == null) {
             head = new MyMapNode<>(key, value);
+            bucket.set(index, head);
             return;
         }
 
         MyMapNode<K, V> temp = head;
-
         while (temp != null) {
             if (temp.getKey().equals(key)) {
                 temp.setValue(value);
@@ -36,13 +45,31 @@ public class MyHashTable<K, V> {
         temp.next = new MyMapNode<>(key, value);
     }
 
-    public void display() {
-        MyMapNode<K, V> temp = head;
-
+    public V get(K key) {
+        int index = getIndex(key);
+        MyMapNode<K, V> temp = bucket.get(index);
         while (temp != null) {
-            System.out.println(temp.getKey() + " -> " + temp.getValue());
+            if (temp.getKey().equals(key)) {
+                return temp.getValue();
+            }
             temp = temp.next;
         }
+        return null;
     }
+
+
+    public void display() {
+        for (int i = 0; i < size; i++) {
+            MyMapNode<K, V> temp = bucket.get(i);
+            if (temp != null) {
+                while (temp != null) {
+                    System.out.println(temp.getKey() + " -> " + temp.getValue());
+                    temp = temp.next;
+                }
+            }
+
+        }
+    }
+
 }
 
