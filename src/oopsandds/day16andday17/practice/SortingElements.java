@@ -63,9 +63,43 @@ public class SortingElements {
         }
     }
 
+
+    private static void quickSorting(int[] array, int l, int h) {
+        if (l < h) {
+            int pi = partition(array, l, h);
+            quickSorting(array, l, pi - 1);
+            quickSorting(array, pi + 1, h);
+        }
+    }
+
+    private static int partition(int[] array, int l, int h) {
+        int pivot = array[h];
+        int i = l - 1;
+
+        for (int j = l; j < h; j++) {
+            if (array[j] < pivot) {
+                i++;
+
+                int temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+        }
+
+        int temp = array[i + 1];
+        array[i + 1] = array[h];
+        array[h] = temp;
+
+        return i + 1;
+    }
+
+
+
     public static void main(String[] args) {
         int[] array = {2, 4, 3, 1, 8, 5};
         int[] array1 = {2, 4, 3, 1, 8, 5};
+        int[] array2 = {2, 4, 3, 1, 8, 5};
+
         int size = array.length;
 
         System.out.println("Sorting the elements using bubble: ");
@@ -94,7 +128,19 @@ public class SortingElements {
         for (int num : array1) {
             System.out.print(num + " ");
         }
+
+        System.out.println();
+        System.out.println("Sorting the elements using quick: ");
+        System.out.println("before sorting");
+        for (int num : array2) {
+            System.out.print(num + " ");
+        }
+
+        quickSorting(array2, 0, array2.length - 1);
+        System.out.println();
+        System.out.println("after sorting");
+        for (int num : array2) {
+            System.out.print(num + " ");
+        }
     }
-
-
 }
