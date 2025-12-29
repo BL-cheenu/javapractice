@@ -9,5 +9,15 @@ public class MyBinarySearchTreeMain {
 
         System.out.println("Printing the elements of search Tree: ");
         searchTree.display();
+
+        MyBinarySearchTree<Integer> searchTree1 = new MyBinarySearchTree<>();
+        Integer[] values = {22, 40, 60, 95, 11, 3, 16, 65, 63, 67};
+        for (Integer value : values)
+            searchTree1.add(value);
+
+        System.out.println("UC2 Full BST Inorder:");
+        searchTree1.display();
+
+        System.out.println("Size: " + searchTree1.size());
     }
 }

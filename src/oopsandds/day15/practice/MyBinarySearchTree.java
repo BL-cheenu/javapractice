@@ -7,6 +7,7 @@ public class MyBinarySearchTree<K extends Comparable<K>> {
         root = this.addRecursively(root, key);
     }
 
+    // UC1 && UC2
     private MyBinaryNode<K> addRecursively(MyBinaryNode<K> current, K key) {
         if (current == null) {
             return new MyBinaryNode<>(key);
@@ -32,5 +33,18 @@ public class MyBinarySearchTree<K extends Comparable<K>> {
         print(node.left);
         System.out.println(node.key + " ");
         print(node.right);
+    }
+
+    // UC2
+    public int size() {
+        return sizeRecursively(root);
+
+    }
+
+    private int sizeRecursively(MyBinaryNode<K> root) {
+        if (root == null) {
+            return 0;
+        }
+        return 1 + sizeRecursively(root.left) + sizeRecursively(root.right);
     }
 }
