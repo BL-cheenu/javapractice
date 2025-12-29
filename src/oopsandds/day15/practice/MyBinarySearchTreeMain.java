@@ -19,5 +19,9 @@ public class MyBinarySearchTreeMain {
         searchTree1.display();
 
         System.out.println("Size: " + searchTree1.size());
+
+        System.out.println("UC3 Search Results:");
+        System.out.println("Search 63: " + searchTree1.search(63));
+        System.out.println("Search 100: " + searchTree1.search(100));
     }
 }
