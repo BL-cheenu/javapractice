@@ -9,7 +9,7 @@ public class UserRegistration {
         String regex = "^[A-Z][a-zA-Z]{2,}$";
         String name = "Cheenu";
         boolean isValidName = Pattern.matches(regex, name);
-        System.out.println("Valid name: " + isValidName);
+        System.out.println("Valid name? " + isValidName);
     }
 
     // UC2
@@ -17,7 +17,7 @@ public class UserRegistration {
         String regex = "^(?:\\S+\\s)+[A-z][a-zA-Z]{2,}$";
         String input = "cheenu M";
         boolean isValidLastname = Pattern.matches(regex, input);
-        System.out.println("Valid last name: " + isValidLastname);
+        System.out.println("Valid last name? " + isValidLastname);
     }
 
     // UC3
@@ -25,7 +25,7 @@ public class UserRegistration {
         String regex = "^[a-z][a-zA-Z0-9]*(\\.[a-zA-Z0-9]+)?@bl\\.co(\\.in)?$";
         String input = "cheenum23@bl.co.in";
         boolean isValidEmail = Pattern.matches(regex, input);
-        System.out.println("Valid mail: " + isValidEmail);
+        System.out.println("Valid mail? " + isValidEmail);
     }
 
     // UC4
@@ -33,7 +33,7 @@ public class UserRegistration {
         String regex = "^91\\s[0-9]{10}$";
         String input = "91 1234567890";
         boolean isValidPhoneNumber = Pattern.matches(regex, input);
-        System.out.println("Valid phone number: " + isValidPhoneNumber);
+        System.out.println("Valid phone number? " + isValidPhoneNumber);
     }
 
     // UC5
