@@ -61,6 +61,15 @@ public class UserRegistration {
         System.out.println("Valid password? " + isValidPassword);
     }
 
+    private static void UC8() {
+        String regex = "^(?=.*[A-Z])(?=.*[0-9])(?=[A-Za-z0-9]*[^A-Za-z0-9][A-Za-z0-9]*$).{8,}$";
+        String pwd = "Hello@123";
+
+        boolean isValid = Pattern.matches(regex, pwd);
+        System.out.println("Valid password? " + isValid);
+    }
+
+
     public static void main(String[] args) {
         uc1();
         uc2();
@@ -69,5 +78,6 @@ public class UserRegistration {
         uc5();
         uc6();
         uc7();
+        UC8();
     }
 }
