@@ -20,9 +20,18 @@ public class UserRegistration {
         System.out.println("Is that Last name is valid: " + isValidLastname);
     }
 
+    // UC3
+    private static void UC3() {
+        String regex = "^[a-z][a-zA-Z0-9]*(\\.[a-zA-Z0-9]+)?@bl\\.co(\\.in)?$";
+        String input = "cheenum23@bl.co.in";
+        boolean isValidEmail = Pattern.matches(regex, input);
+        System.out.println("Is that valid mail: " + isValidEmail);
+    }
+
     public static void main(String[] args) {
         UC1();
         UC2();
+        UC3();
     }
 
 
