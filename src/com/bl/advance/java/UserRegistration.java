@@ -43,15 +43,24 @@ public class UserRegistration {
         boolean isValidPassword = Pattern.matches(regex, input);
         System.out.println("Valid password? " + isValidPassword);
     }
+
+    // UC6
+    private static void uc6() {
+        String regex = "^(?=.*[A-Z]).{8,}$";
+        String pwd = "Hello@123";
+
+        boolean isValidPassword = Pattern.matches(regex, pwd);
+        System.out.println("Valid password? " + isValidPassword);
+    }
+
     public static void main(String[] args) {
         uc1();
         uc2();
         uc3();
         uc4();
         uc5();
+        uc6();
     }
-
-
 
 
 }
