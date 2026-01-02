@@ -12,11 +12,10 @@ public class UserRegistration {
     }
 
     // UC2
-    public static void uc2() {
+    public static boolean uc2(String lastName) {
         String regex = "^(?:\\S+\\s)+[A-z][a-zA-Z]{2,}$";
-        String input = "hello M";
-        boolean isValidLastname = Pattern.matches(regex, input);
-        System.out.println("Valid last name? " + isValidLastname);
+        boolean isValidLastname = Pattern.matches(regex, lastName);
+        return isValidLastname;
     }
 
     // UC3
@@ -80,10 +79,10 @@ public class UserRegistration {
     }
 
     public static void main(String[] args) {
-       boolean resultOfUc1 =  uc1("hello");
+        boolean resultOfUc1 = uc1("hello");
         System.out.println("Valid name? " + resultOfUc1);
-
-        uc2();
+        boolean resultOfUC2 = uc2("Hello Hello");
+        System.out.println("Valid last name? " + resultOfUC2);
         uc3();
         uc4();
         uc5();

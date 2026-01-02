@@ -18,4 +18,18 @@ public class UserRegistrationTest {
         boolean result = registration.uc1("Ab");
         Assert.assertEquals(false, result);
     }
+
+    @Test // UC2
+    public void givenLastName_WhenProperly_ShouldReturnTrue() {
+        UserRegistration registration = new UserRegistration();
+        boolean result = registration.uc2("Abcde Abcd");
+        Assert.assertEquals(true, result);
+    }
+
+    @Test // UC2
+    public void givenLastName_WhenImproperly_ShouldReturnFalse() {
+        UserRegistration registration = new UserRegistration();
+        boolean result = registration.uc2("Abcd Ab");
+        Assert.assertEquals(false, result);
+    }
 }
