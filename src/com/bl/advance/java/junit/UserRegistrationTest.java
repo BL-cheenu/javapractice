@@ -130,4 +130,35 @@ public class UserRegistrationTest {
         boolean result = registration.uc8("hello12345");
         Assert.assertEquals(false, result);
     }
+
+    @Test // UC9
+    public void givenValidEmails_ShouldReturnTrue() {
+        Assert.assertEquals(true, UserRegistration.uc9("abc@yahoo.com"));
+        Assert.assertEquals(true, UserRegistration.uc9("abc-100@yahoo.com"));
+        Assert.assertEquals(true, UserRegistration.uc9("abc.100@yahoo.com"));
+        Assert.assertEquals(true, UserRegistration.uc9("abc111@abc.com"));
+        Assert.assertEquals(true, UserRegistration.uc9("abc-100@abc.net"));
+        Assert.assertEquals(true, UserRegistration.uc9("abc.100@abc.com.au"));
+        Assert.assertEquals(true, UserRegistration.uc9("abc@1.com"));
+        Assert.assertEquals(true, UserRegistration.uc9("abc@gmail.com"));
+        Assert.assertEquals(true, UserRegistration.uc9("abc+100@gmail.com"));
+    }
+
+    // INVALID EMAILS
+    @Test // Uc9
+    public void givenInvalidEmails_ShouldReturnFalse() {
+        Assert.assertEquals(false, UserRegistration.uc9("abc"));
+        Assert.assertEquals(false, UserRegistration.uc9("abc@.com.my"));
+        Assert.assertEquals(false, UserRegistration.uc9("abc123@gmail.a"));
+        Assert.assertEquals(false, UserRegistration.uc9("abc123@.com"));
+        Assert.assertEquals(false, UserRegistration.uc9("abc123@.com.com"));
+        Assert.assertEquals(false, UserRegistration.uc9(".abc@abc.com"));
+        Assert.assertEquals(false, UserRegistration.uc9("abc()*@gmail.com"));
+        Assert.assertEquals(false, UserRegistration.uc9("abc@%*.com"));
+        Assert.assertEquals(false, UserRegistration.uc9("abc..2002@gmail.com"));
+        Assert.assertEquals(false, UserRegistration.uc9("abc.@gmail.com"));
+        Assert.assertEquals(false, UserRegistration.uc9("abc@abc@gmail.com"));
+        Assert.assertEquals(false, UserRegistration.uc9("abc@gmail.com.1a"));
+        Assert.assertEquals(false, UserRegistration.uc9("abc@gmail.com.au.au"));
+    }
 }

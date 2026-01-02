@@ -62,12 +62,10 @@ public class UserRegistration {
     }
 
     // UC9
-    public static void uc9() {
+    public static boolean uc9(String password) {
         String regex = "^[a-zA-Z0-9]+([._+-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z]{2,})(\\.[a-zA-Z]{2,})?$";
-        String input = "abc@bl.co";
-
-        boolean isValidPassword = Pattern.matches(regex, input);
-        System.out.println("Valid email? " + isValidPassword);
+        boolean isValidPassword = Pattern.matches(regex, password);
+        return isValidPassword;
     }
 
     public static void main(String[] args) {
@@ -95,6 +93,8 @@ public class UserRegistration {
         boolean resultOfUc8 = uc8("Hello@1234");
         System.out.println("Valid password? " + resultOfUc8);
 
-        uc9();
+        boolean resultOfUc9 = uc9("abc@mail.com");
+        System.out.println("Valid email? " + resultOfUc9);
+
     }
 }
