@@ -116,4 +116,18 @@ public class UserRegistrationTest {
         boolean result = registration.uc7("helloHello");
         Assert.assertEquals(false, result);
     }
+
+    @Test // UC8
+    public void givenPasswordWithAtleast1SplCharacter_WhenProperly_ShouldReturnTrue() {
+        UserRegistration registration = new UserRegistration();
+        boolean result = registration.uc8("Hello@1234");
+        Assert.assertEquals(true, result);
+    }
+
+    @Test // UC8
+    public void givenPasswordWithAtleast1SplCharacter_WhenImProperly_ShouldReturnFalse() {
+        UserRegistration registration = new UserRegistration();
+        boolean result = registration.uc8("hello12345");
+        Assert.assertEquals(false, result);
+    }
 }
