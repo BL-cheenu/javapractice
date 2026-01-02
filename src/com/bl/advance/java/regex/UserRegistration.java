@@ -26,11 +26,10 @@ public class UserRegistration {
     }
 
     // UC4
-    public static void uc4() {
+    public static boolean uc4(String number) {
         String regex = "^91\\s[0-9]{10}$";
-        String input = "91 1234567890";
-        boolean isValidPhoneNumber = Pattern.matches(regex, input);
-        System.out.println("Valid phone number? " + isValidPhoneNumber);
+        boolean isValidPhoneNumber = Pattern.matches(regex, number);
+        return isValidPhoneNumber;
     }
 
     // UC5
@@ -80,11 +79,16 @@ public class UserRegistration {
     public static void main(String[] args) {
         boolean resultOfUc1 = uc1("hello");
         System.out.println("Valid name? " + resultOfUc1);
+
         boolean resultOfUC2 = uc2("Hello Hello");
         System.out.println("Valid last name? " + resultOfUC2);
-        boolean resultofUc3 = uc3("mail@bl.co");
-        System.out.println("Valid mail? " + resultofUc3);
-        uc4();
+
+        boolean resultOfUc3 = uc3("mail@bl.co");
+        System.out.println("Valid mail? " + resultOfUc3);
+
+        boolean resultOfUc4 =   uc4("91 1234567890");
+        System.out.println("Valid phone number? " + resultOfUc4);
+
         uc5();
         uc6();
         uc7();

@@ -43,7 +43,7 @@ public class UserRegistrationTest {
     @Test // UC3 mandatory with optional
     public void givenMailWithOptional_WhenProperly_ShouldReturnTrue() {
         UserRegistration registration = new UserRegistration();
-        boolean result = registration.uc3("abcd.ab@bl.co.in");
+        boolean result = registration.uc3("abcd.ab@bl.co");
         Assert.assertEquals(true, result);
     }
 
@@ -51,6 +51,27 @@ public class UserRegistrationTest {
     public void givenMail_WhenImProperly_ShouldReturnTrue() {
         UserRegistration registration = new UserRegistration();
         boolean result = registration.uc3("abcd@co.ac");
+        Assert.assertEquals(false, result);
+    }
+
+    @Test // UC4
+    public void givenPhone_WhenProperly_ShouldReturnTrue() {
+        UserRegistration registration = new UserRegistration();
+        boolean result = registration.uc4("91 1234567890");
+        Assert.assertEquals(true, result);
+    }
+
+    @Test // UC4 invalid case 1
+    public void givenPhone_WhenImProperly1_ShouldReturnTrue() {
+        UserRegistration registration = new UserRegistration();
+        boolean result = registration.uc4("90 123456789");
+        Assert.assertEquals(false, result);
+    }
+
+    @Test // UC4 invalid case 2
+    public void givenPhone_WhenImProperly2_ShouldReturnTrue() {
+        UserRegistration registration = new UserRegistration();
+        boolean result = registration.uc4("91 12345789");
         Assert.assertEquals(false, result);
     }
 }
