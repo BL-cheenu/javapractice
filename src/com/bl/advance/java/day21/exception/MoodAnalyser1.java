@@ -7,16 +7,17 @@ public class MoodAnalyser1 {
         this.message = message;
     }
 
-    // UC1 && UC2
-    public String analyseMood() {
+    // UC1 && UC2 && UC3
+    public String analyseMood() throws MoodAnalysisException {
         try {
             if (message.contains("SAD")) {
                 return "SAD";
             } else {
                 return "HAPPY";
             }
-        } catch (NullPointerException e) {
-            return "HAPPY";
+        } catch (RuntimeException e) {
+            throw new MoodAnalysisException(MoodAnalysisException.ExceptionType.NULL
+                    , "Mood can't be Null");
         }
     }
 }
