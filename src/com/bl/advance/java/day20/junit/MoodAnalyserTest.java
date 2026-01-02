@@ -30,7 +30,7 @@ public class MoodAnalyserTest {
     }
 
     @Test // tc 3.1
-    public void givenNull_Mood_ShouldReturnHappy() {
+    public void givenNull_Mood_ShouldMoodAnalysisException() {
         MoodAnalyser1 moodAnalyser1 = new MoodAnalyser1(null);
         try {
             moodAnalyser1.analyseMood();
