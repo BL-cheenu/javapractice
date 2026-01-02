@@ -48,7 +48,7 @@ public class UserRegistrationTest {
     }
 
     @Test // UC3 with error
-    public void givenMail_WhenImProperly_ShouldReturnTrue() {
+    public void givenMail_WhenImProperly_ShouldReturnFalse() {
         UserRegistration registration = new UserRegistration();
         boolean result = registration.uc3("abcd@co.ac");
         Assert.assertEquals(false, result);
@@ -62,16 +62,31 @@ public class UserRegistrationTest {
     }
 
     @Test // UC4 invalid case 1
-    public void givenPhone_WhenImProperly1_ShouldReturnTrue() {
+    public void givenPhone_WhenImProperly1_ShouldReturnFalse() {
         UserRegistration registration = new UserRegistration();
         boolean result = registration.uc4("90 123456789");
         Assert.assertEquals(false, result);
     }
 
     @Test // UC4 invalid case 2
-    public void givenPhone_WhenImProperly2_ShouldReturnTrue() {
+    public void givenPhone_WhenImProperly2_ShouldReturnFalse() {
         UserRegistration registration = new UserRegistration();
         boolean result = registration.uc4("91 12345789");
         Assert.assertEquals(false, result);
     }
+
+    @Test // UC5
+    public void givenPassword_WhenProperly_ShouldReturnTrue() {
+        UserRegistration registration = new UserRegistration();
+        boolean result = registration.uc5("hello1234");
+        Assert.assertEquals(true, result);
+    }
+
+    @Test // UC5
+    public void givenPassword_WhenImProperly_ShouldReturnFalse() {
+        UserRegistration registration = new UserRegistration();
+        boolean result = registration.uc5("hel4");
+        Assert.assertEquals(false, result);
+    }
+
 }

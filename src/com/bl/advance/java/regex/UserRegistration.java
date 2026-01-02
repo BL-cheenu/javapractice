@@ -33,11 +33,11 @@ public class UserRegistration {
     }
 
     // UC5
-    public static void uc5() {
+    public static boolean uc5(String password) {
         String regex = "^.{8,}$";
         String input = "hello1234";
-        boolean isValidPassword = Pattern.matches(regex, input);
-        System.out.println("Valid password? " + isValidPassword);
+        boolean isValidPassword = Pattern.matches(regex, password);
+        return isValidPassword;
     }
 
     // UC6
@@ -86,10 +86,11 @@ public class UserRegistration {
         boolean resultOfUc3 = uc3("mail@bl.co");
         System.out.println("Valid mail? " + resultOfUc3);
 
-        boolean resultOfUc4 =   uc4("91 1234567890");
+        boolean resultOfUc4 = uc4("91 1234567890");
         System.out.println("Valid phone number? " + resultOfUc4);
 
-        uc5();
+        boolean resultOfUc5 = uc5("hello1234");
+        System.out.println("Valid password? " + resultOfUc5);
         uc6();
         uc7();
         uc8();
