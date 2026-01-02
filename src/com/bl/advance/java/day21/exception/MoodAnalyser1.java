@@ -2,10 +2,15 @@ package com.bl.advance.java.day21.exception;
 
 public class MoodAnalyser1 {
 
+    // UC1 && UC2
     public String analyseMood(String msg) {
-        if (msg.contains("SAD")) {
-            return "SAD";
-        } else {
+        try {
+            if (msg.contains("SAD")) {
+                return "SAD";
+            } else {
+                return "HAPPY";
+            }
+        } catch (Exception e) {
             return "HAPPY";
         }
     }
