@@ -19,11 +19,10 @@ public class UserRegistration {
     }
 
     // UC3
-    public static void uc3() {
+    public static boolean uc3(String email) {
         String regex = "^[a-z][a-zA-Z0-9]*(\\.[a-zA-Z0-9]+)?@bl\\.co(\\.in)?$";
-        String input = "hello23@bl.co.in";
-        boolean isValidEmail = Pattern.matches(regex, input);
-        System.out.println("Valid mail? " + isValidEmail);
+        boolean isValidEmail = Pattern.matches(regex, email);
+        return isValidEmail;
     }
 
     // UC4
@@ -83,7 +82,8 @@ public class UserRegistration {
         System.out.println("Valid name? " + resultOfUc1);
         boolean resultOfUC2 = uc2("Hello Hello");
         System.out.println("Valid last name? " + resultOfUC2);
-        uc3();
+        boolean resultofUc3 = uc3("mail@bl.co");
+        System.out.println("Valid mail? " + resultofUc3);
         uc4();
         uc5();
         uc6();
