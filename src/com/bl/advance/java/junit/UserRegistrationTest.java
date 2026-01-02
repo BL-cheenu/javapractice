@@ -1,11 +1,12 @@
 package com.bl.advance.java.junit;
 
 import com.bl.advance.java.regex.UserRegistration;
-import org.junit.Assert;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
 
 public class UserRegistrationTest {
-    @Test // UC1
+     @Test // UC1
     public void givenFirstName_WhenProperly_ShouldReturnTrue() {
         UserRegistration registration = new UserRegistration();
         boolean result = registration.uc1("Abcde");
