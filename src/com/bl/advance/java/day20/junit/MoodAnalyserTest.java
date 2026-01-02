@@ -22,9 +22,16 @@ public class MoodAnalyserTest {
     }
 
     @Test // tc 1.2
-    public void givenMessage_IAmInAnyMood_ShouldReturnHappy(){
+    public void givenMessage_IAmInAnyMood_ShouldReturnHappy() {
         MoodAnalyser1 moodAnalyser1 = new MoodAnalyser1();
         String mood = moodAnalyser1.analyseMood("I am in any mood");
+        Assert.assertEquals(mood, "HAPPY");
+    }
+
+    @Test // tc 2.1
+    public void givenNull_Mood_ShouldReturnHappy() {
+        MoodAnalyser1 moodAnalyser1 = new MoodAnalyser1();
+        String mood = moodAnalyser1.analyseMood(null);
         Assert.assertEquals(mood, "HAPPY");
     }
 }

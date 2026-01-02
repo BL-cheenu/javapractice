@@ -10,7 +10,7 @@ public class MoodAnalyser1 {
             } else {
                 return "HAPPY";
             }
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             return "HAPPY";
         }
     }
