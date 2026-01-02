@@ -41,12 +41,10 @@ public class UserRegistration {
     }
 
     // UC6
-    public static void uc6() {
+    public static boolean uc6(String password) {
         String regex = "^(?=.*[A-Z]).{8,}$";
-        String input = "Hello@123";
-
-        boolean isValidPassword = Pattern.matches(regex, input);
-        System.out.println("Valid password? " + isValidPassword);
+        boolean isValidPassword = Pattern.matches(regex, password);
+        return isValidPassword;
     }
 
     // UC7
@@ -91,7 +89,10 @@ public class UserRegistration {
 
         boolean resultOfUc5 = uc5("hello1234");
         System.out.println("Valid password? " + resultOfUc5);
-        uc6();
+
+        boolean resultOfUc6 = uc6("Hello1234");
+        System.out.println("Valid password? " + resultOfUc6);
+
         uc7();
         uc8();
         uc9();

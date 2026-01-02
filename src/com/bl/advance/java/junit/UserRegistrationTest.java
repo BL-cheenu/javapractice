@@ -88,5 +88,17 @@ public class UserRegistrationTest {
         boolean result = registration.uc5("hel4");
         Assert.assertEquals(false, result);
     }
+    @Test // UC6
+    public void givenPasswordWithAtleast1Captial_WhenProperly_ShouldReturnTrue() {
+        UserRegistration registration = new UserRegistration();
+        boolean result = registration.uc6("Hello1234");
+        Assert.assertEquals(true, result);
+    }
 
+    @Test // UC6
+    public void givenPasswordWithAtleast1Captial_WhenImProperly_ShouldReturnFalse() {
+        UserRegistration registration = new UserRegistration();
+        boolean result = registration.uc6("hello1234");
+        Assert.assertEquals(false, result);
+    }
 }
