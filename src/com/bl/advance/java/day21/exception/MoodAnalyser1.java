@@ -10,6 +10,9 @@ public class MoodAnalyser1 {
     // UC1 && UC2 && UC3
     public String analyseMood() throws MoodAnalysisException {
         try {
+            if (message.length() == 0){
+                throw new MoodAnalysisException(MoodAnalysisException.ExceptionType.EMPTY,"Mood can't be Empty");
+            }
             if (message.contains("SAD")) {
                 return "SAD";
             } else {

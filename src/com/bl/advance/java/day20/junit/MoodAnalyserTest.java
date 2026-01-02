@@ -38,4 +38,14 @@ public class MoodAnalyserTest {
             Assert.assertEquals(MoodAnalysisException.ExceptionType.NULL, e.type);
         }
     }
+
+    @Test // tc 3.2
+    public void givenEmpty_Mood_ShouldMoodAnalysisException() {
+        MoodAnalyser1 moodAnalyser1 = new MoodAnalyser1("");
+        try {
+            moodAnalyser1.analyseMood();
+        } catch (MoodAnalysisException e) {
+            Assert.assertEquals(MoodAnalysisException.ExceptionType.EMPTY, e.type);
+        }
+    }
 }
