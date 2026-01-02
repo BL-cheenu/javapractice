@@ -1,6 +1,6 @@
-package com.bl.advance.java.junit;
+package com.bl.advance.java.day20.junit;
 
-import com.bl.advance.java.regex.UserRegistration;
+import com.bl.advance.java.day19.regex.UserRegistration;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

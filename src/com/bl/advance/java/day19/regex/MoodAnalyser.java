@@ -1,4 +1,4 @@
-package com.bl.advance.java.regex;
+package com.bl.advance.java.day19.regex;
 
 public class MoodAnalyser {
     public String analyseMood(String msg){
