@@ -12,7 +12,8 @@ public class AddressBookSystemMain {
             System.out.println("1. Add Contact");
             System.out.println("2. Edit Contact");
             System.out.println("3. Show Contacts");
-            System.out.println("4. Exit");
+            System.out.println("4. Delete Contacts");
+            System.out.println("5. Exit");
 
             System.out.print("Enter choice : ");
             int choice = sc.nextInt();
@@ -56,11 +57,12 @@ public class AddressBookSystemMain {
                     book.showALlContacts();
                     break;
                 case 4:
+                    book.deleteContact();
+                    break;
+                case 5:
                     System.out.println("Exiting...");
                     System.exit(0);
             }
         }
-
-
     }
 }
