@@ -9,8 +9,19 @@ public class AddressBookSystem {
     Scanner sc = new Scanner(System.in);
 
     public void addContact(Contacts contacts) {
-        contactList.add(contacts);
-        System.out.println("Contact Added Successfully!");
+        if (contactList.isEmpty()) {
+            contactList.add(contacts);
+            System.out.println("Contact Added Successfully!");
+        } else {
+            boolean isDuplicate = contactList.stream()
+                    .anyMatch(contacts1 -> contacts1.firstName.equalsIgnoreCase(contacts.firstName));
+            if (isDuplicate) {
+                System.out.println("Duplicate Entry! Person already exists.");
+            } else {
+                contactList.add(contacts);
+                System.out.println("Contact Added Successfully!");
+            }
+        }
     }
 
     public void showALlContacts() {
