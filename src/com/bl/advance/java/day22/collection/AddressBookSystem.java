@@ -1,21 +1,19 @@
 package com.bl.advance.java.day22.collection;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AddressBookSystem {
-    public static void main(String[] args) {
-        System.out.println("Welcome to Address Book...");
+    List<Contacts> contactsArrayList = new ArrayList<>();
 
-        Contacts contact = new Contacts(
-                "demo",
-                "Doe",
-                "Street 123",
-                "Chennai",
-                "TamilNadu",
-                "411001",
-                "9876543210",
-                "demo@gmail.com"
-        );
+    public void addContact(Contacts contacts) {
+        contactsArrayList.add(contacts);
+        System.out.println("Contact Added Successfully!");
+    }
 
-        System.out.println("Contact Created Successfully:");
-        contact.showContact();
+    public void showALlContacts() {
+        for (Contacts contacts : contactsArrayList) {
+            contacts.showContact();
+        }
     }
 }
