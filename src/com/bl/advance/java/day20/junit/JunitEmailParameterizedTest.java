@@ -1,6 +1,7 @@
 package com.bl.advance.java.day20.junit;
 
 import com.bl.advance.java.day21.exception.UserRegistrationWithExceptionHandling;
+import com.bl.advance.java.day21.exception.UserValidationException;
 import org.testng.Assert;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
@@ -16,7 +17,7 @@ public class JunitEmailParameterizedTest {
     }
 
     @Test
-    public void givenEmail_ShouldMatchExpectedResult() {
+    public void givenEmail_ShouldMatchExpectedResult() throws UserValidationException {
         Assert.assertEquals(
                 UserRegistrationWithExceptionHandling.uc9(email),
                 expected

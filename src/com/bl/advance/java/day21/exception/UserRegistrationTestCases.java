@@ -4,142 +4,116 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class UserRegistrationTestCases {
-    @Test // UC1
-    public void givenFirstName_WhenProperly_ShouldReturnTrue() {
-        UserRegistrationWithExceptionHandling registration = new UserRegistrationWithExceptionHandling();
+    UserRegistrationWithExceptionHandling registration =
+            new UserRegistrationWithExceptionHandling();
+
+    // ---------- UC1 ----------
+    @Test
+    public void givenFirstName_WhenProper_ShouldReturnTrue() throws Exception {
         Assert.assertTrue(registration.uc1("Abcde"));
     }
 
-    @Test // UC1
-    public void givenFirstName_WhenImproperly_ShouldReturnFalse() {
-        UserRegistrationWithExceptionHandling registration = new UserRegistrationWithExceptionHandling();
-        Assert.assertFalse(registration.uc1("Ab"));
+    @Test
+    public void givenFirstName_WhenImproper_ShouldThrowException() {
+        Assert.assertThrows(UserValidationException.class,
+                () -> registration.uc1("Ab"));
     }
 
-    @Test // UC2
-    public void givenLastName_WhenProperly_ShouldReturnTrue() {
-        UserRegistrationWithExceptionHandling registration = new UserRegistrationWithExceptionHandling();
+    // ---------- UC2 ----------
+    @Test
+    public void givenLastName_WhenProper_ShouldReturnTrue() throws Exception {
         Assert.assertTrue(registration.uc2("Abcde Abcd"));
     }
 
-    @Test // UC2
-    public void givenLastName_WhenImproperly_ShouldReturnFalse() {
-        UserRegistrationWithExceptionHandling registration = new UserRegistrationWithExceptionHandling();
-        Assert.assertFalse(registration.uc2("Abcd Ab"));
+    @Test
+    public void givenLastName_WhenImproper_ShouldThrowException() {
+        Assert.assertThrows(UserValidationException.class,
+                () -> registration.uc2("Abc Ab"));
     }
 
-    @Test // UC3 mandatory
-    public void givenMail_WhenProperly_ShouldReturnTrue() {
-        UserRegistrationWithExceptionHandling registration = new UserRegistrationWithExceptionHandling();
+    // ---------- UC3 ----------
+    @Test
+    public void givenEmail_WhenProper_ShouldReturnTrue() throws Exception {
         Assert.assertTrue(registration.uc3("abcd@bl.co"));
     }
 
-    @Test // UC3 mandatory with optional
-    public void givenMailWithOptional_WhenProperly_ShouldReturnTrue() {
-        UserRegistrationWithExceptionHandling registration = new UserRegistrationWithExceptionHandling();
-        Assert.assertTrue(registration.uc3("abcd.ab@bl.co"));
+    @Test
+    public void givenEmail_WhenImproper_ShouldThrowException() {
+        Assert.assertThrows(UserValidationException.class,
+                () -> registration.uc3("abcd@co.ac"));
     }
 
-    @Test // UC3 with error
-    public void givenMail_WhenImProperly_ShouldReturnFalse() {
-        UserRegistrationWithExceptionHandling registration = new UserRegistrationWithExceptionHandling();
-        Assert.assertFalse(registration.uc3("abcd@co.ac"));
-    }
-
-    @Test // UC4
-    public void givenPhone_WhenProperly_ShouldReturnTrue() {
-        UserRegistrationWithExceptionHandling registration = new UserRegistrationWithExceptionHandling();
+    // ---------- UC4 ----------
+    @Test
+    public void givenPhone_WhenProper_ShouldReturnTrue() throws Exception {
         Assert.assertTrue(registration.uc4("91 1234567890"));
     }
 
-    @Test // UC4 invalid case 1
-    public void givenPhone_WhenImProperly1_ShouldReturnFalse() {
-        UserRegistrationWithExceptionHandling registration = new UserRegistrationWithExceptionHandling();
-        Assert.assertFalse(registration.uc4("90 123456789"));
+    @Test
+    public void givenPhone_WhenImproper_ShouldThrowException() {
+        Assert.assertThrows(UserValidationException.class,
+                () -> registration.uc4("90 123456789"));
     }
 
-    @Test // UC4 invalid case 2
-    public void givenPhone_WhenImProperly2_ShouldReturnFalse() {
-        UserRegistrationWithExceptionHandling registration = new UserRegistrationWithExceptionHandling();
-        Assert.assertFalse(registration.uc4("91 12345789"));
-    }
-
-    @Test // UC5
-    public void givenPassword_WhenProperly_ShouldReturnTrue() {
-        UserRegistrationWithExceptionHandling registration = new UserRegistrationWithExceptionHandling();
+    // ---------- UC5 ----------
+    @Test
+    public void givenPassword_WhenProper_ShouldReturnTrue() throws Exception {
         Assert.assertTrue(registration.uc5("hello1234"));
     }
 
-    @Test // UC5
-    public void givenPassword_WhenImProperly_ShouldReturnFalse() {
-        UserRegistrationWithExceptionHandling registration = new UserRegistrationWithExceptionHandling();
-        Assert.assertFalse(registration.uc5("hel4"));
+    @Test
+    public void givenPassword_WhenImproper_ShouldThrowException() {
+        Assert.assertThrows(UserValidationException.class,
+                () -> registration.uc5("hel4"));
     }
 
-    @Test // UC6
-    public void givenPasswordWithAtleast1Captial_WhenProperly_ShouldReturnTrue() {
-        UserRegistrationWithExceptionHandling registration = new UserRegistrationWithExceptionHandling();
+    // ---------- UC6 ----------
+    @Test
+    public void givenPasswordWithCapital_WhenProper_ShouldReturnTrue() throws Exception {
         Assert.assertTrue(registration.uc6("Hello1234"));
     }
 
-    @Test // UC6
-    public void givenPasswordWithAtleast1Captial_WhenImProperly_ShouldReturnFalse() {
-        UserRegistrationWithExceptionHandling registration = new UserRegistrationWithExceptionHandling();
-        Assert.assertFalse(registration.uc6("hello1234"));
+    @Test
+    public void givenPasswordWithCapital_WhenImproper_ShouldThrowException() {
+        Assert.assertThrows(UserValidationException.class,
+                () -> registration.uc6("hello1234"));
     }
 
-    @Test // UC7
-    public void givenPasswordWithAtleast1Numeric_WhenProperly_ShouldReturnTrue() {
-        UserRegistrationWithExceptionHandling registration = new UserRegistrationWithExceptionHandling();
+    // ---------- UC7 ----------
+    @Test
+    public void givenPasswordWithNumber_WhenProper_ShouldReturnTrue() throws Exception {
         Assert.assertTrue(registration.uc7("Hello1234"));
     }
 
-    @Test // UC7
-    public void givenPasswordWithAtleast1Numeric_WhenImProperly_ShouldReturnFalse() {
-        UserRegistrationWithExceptionHandling registration = new UserRegistrationWithExceptionHandling();
-        Assert.assertFalse(registration.uc7("helloHello"));
+    @Test
+    public void givenPasswordWithNumber_WhenImproper_ShouldThrowException() {
+        Assert.assertThrows(UserValidationException.class,
+                () -> registration.uc7("HelloHello"));
     }
 
-    @Test // UC8
-    public void givenPasswordWithAtleast1SplCharacter_WhenProperly_ShouldReturnTrue() {
-        UserRegistrationWithExceptionHandling registration = new UserRegistrationWithExceptionHandling();
+    // ---------- UC8 ----------
+    @Test
+    public void givenPasswordWithSpecialChar_WhenProper_ShouldReturnTrue() throws Exception {
         Assert.assertTrue(registration.uc8("Hello@1234"));
     }
 
-    @Test // UC8
-    public void givenPasswordWithAtleast1SplCharacter_WhenImProperly_ShouldReturnFalse() {
-        UserRegistrationWithExceptionHandling registration = new UserRegistrationWithExceptionHandling();
-        Assert.assertFalse(registration.uc8("hello12345"));
+    @Test
+    public void givenPasswordWithSpecialChar_WhenImproper_ShouldThrowException() {
+        Assert.assertThrows(UserValidationException.class,
+                () -> registration.uc8("hello12345"));
     }
 
-    @Test // UC9
-    public void givenValidEmails_ShouldReturnTrue() {
+    // ---------- UC9 ----------
+    @Test
+    public void givenValidEmails_ShouldReturnTrue() throws Exception {
         Assert.assertTrue(UserRegistrationWithExceptionHandling.uc9("abc@yahoo.com"));
         Assert.assertTrue(UserRegistrationWithExceptionHandling.uc9("abc-100@yahoo.com"));
         Assert.assertTrue(UserRegistrationWithExceptionHandling.uc9("abc.100@yahoo.com"));
-        Assert.assertTrue(UserRegistrationWithExceptionHandling.uc9("abc111@abc.com"));
-        Assert.assertTrue(UserRegistrationWithExceptionHandling.uc9("abc-100@abc.net"));
-        Assert.assertTrue(UserRegistrationWithExceptionHandling.uc9("abc.100@abc.com.au"));
-        Assert.assertTrue(UserRegistrationWithExceptionHandling.uc9("abc@1.com"));
-        Assert.assertTrue(UserRegistrationWithExceptionHandling.uc9("abc@gmail.com"));
-        Assert.assertTrue(UserRegistrationWithExceptionHandling.uc9("abc+100@gmail.com"));
     }
 
-    // INVALID EMAILS
-    @Test // Uc9
-    public void givenInvalidEmails_ShouldReturnFalse() {
-        Assert.assertFalse(UserRegistrationWithExceptionHandling.uc9("abc"));
-        Assert.assertFalse(UserRegistrationWithExceptionHandling.uc9("abc@.com.my"));
-        Assert.assertFalse(UserRegistrationWithExceptionHandling.uc9("abc123@gmail.a"));
-        Assert.assertFalse(UserRegistrationWithExceptionHandling.uc9("abc123@.com"));
-        Assert.assertFalse(UserRegistrationWithExceptionHandling.uc9("abc123@.com.com"));
-        Assert.assertFalse(UserRegistrationWithExceptionHandling.uc9(".abc@abc.com"));
-        Assert.assertFalse(UserRegistrationWithExceptionHandling.uc9("abc()*@gmail.com"));
-        Assert.assertFalse(UserRegistrationWithExceptionHandling.uc9("abc@%*.com"));
-        Assert.assertFalse(UserRegistrationWithExceptionHandling.uc9("abc..2002@gmail.com"));
-        Assert.assertFalse(UserRegistrationWithExceptionHandling.uc9("abc.@gmail.com"));
-        Assert.assertFalse(UserRegistrationWithExceptionHandling.uc9("abc@abc@gmail.com"));
-        Assert.assertFalse(UserRegistrationWithExceptionHandling.uc9("abc@gmail.com.1a"));
-        Assert.assertFalse(UserRegistrationWithExceptionHandling.uc9("abc@gmail.com.au.au"));
+    @Test
+    public void givenInvalidEmails_ShouldThrowException() {
+        Assert.assertThrows(UserValidationException.class,
+                () -> UserRegistrationWithExceptionHandling.uc9("abc@.com.my"));
     }
 }

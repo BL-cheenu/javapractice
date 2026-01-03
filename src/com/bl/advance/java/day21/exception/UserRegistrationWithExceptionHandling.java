@@ -4,96 +4,92 @@ import java.util.regex.Pattern;
 
 public class UserRegistrationWithExceptionHandling {
     // UC1
-    public static boolean uc1(String name) {
+    public boolean uc1(String name) throws UserValidationException {
         String regex = "^[A-Z][a-zA-Z]{2,}$";
-        boolean isValidName = Pattern.matches(regex, name);
-        return isValidName;
+        if (!Pattern.matches(regex, name))
+            throw new UserValidationException(
+                    UserValidationException.Type.INVALID_FIRST_NAME,
+                    "Invalid First Name");
+        return true;
     }
 
     // UC2
-    public static boolean uc2(String lastName) {
-        String regex = "^(?:\\S+\\s)+[A-z][a-zA-Z]{2,}$";
-        boolean isValidLastname = Pattern.matches(regex, lastName);
-        return isValidLastname;
+    public boolean uc2(String lastName) throws UserValidationException {
+        String regex = "^(?:\\S+\\s)+[A-Za-z]{3,}$";
+        if (!Pattern.matches(regex, lastName))
+            throw new UserValidationException(
+                    UserValidationException.Type.INVALID_LAST_NAME,
+                    "Invalid Last Name");
+        return true;
     }
 
     // UC3
-    public static boolean uc3(String email) {
+    public boolean uc3(String email) throws UserValidationException {
         String regex = "^[a-z][a-zA-Z0-9]*(\\.[a-zA-Z0-9]+)?@bl\\.co(\\.in)?$";
-        boolean isValidEmail = Pattern.matches(regex, email);
-        return isValidEmail;
+        if (!Pattern.matches(regex, email))
+            throw new UserValidationException(
+                    UserValidationException.Type.INVALID_EMAIL,
+                    "Invalid Email");
+        return true;
     }
 
     // UC4
-    public static boolean uc4(String number) {
+    public boolean uc4(String number) throws UserValidationException {
         String regex = "^91\\s[0-9]{10}$";
-        boolean isValidPhoneNumber = Pattern.matches(regex, number);
-        return isValidPhoneNumber;
+        if (!Pattern.matches(regex, number))
+            throw new UserValidationException(
+                    UserValidationException.Type.INVALID_PHONE,
+                    "Invalid Phone");
+        return true;
     }
 
     // UC5
-    public static boolean uc5(String password) {
+    public boolean uc5(String password) throws UserValidationException {
         String regex = "^.{8,}$";
-        String input = "hello1234";
-        boolean isValidPassword = Pattern.matches(regex, password);
-        return isValidPassword;
+        if (!Pattern.matches(regex, password))
+            throw new UserValidationException(
+                    UserValidationException.Type.INVALID_PASSWORD,
+                    "Password must be min 8 chars");
+        return true;
     }
 
     // UC6
-    public static boolean uc6(String password) {
+    public boolean uc6(String password) throws UserValidationException {
         String regex = "^(?=.*[A-Z]).{8,}$";
-        boolean isValidPassword = Pattern.matches(regex, password);
-        return isValidPassword;
+        if (!Pattern.matches(regex, password))
+            throw new UserValidationException(
+                    UserValidationException.Type.INVALID_PASSWORD,
+                    "Password must have 1 capital letter");
+        return true;
     }
 
     // UC7
-    public static boolean uc7(String password) {
+    public boolean uc7(String password) throws UserValidationException {
         String regex = "^(?=.*[A-Z])(?=.*[0-9]).{8,}$";
-        boolean isValidPassword = Pattern.matches(regex, password);
-        return isValidPassword;
+        if (!Pattern.matches(regex, password))
+            throw new UserValidationException(
+                    UserValidationException.Type.INVALID_PASSWORD,
+                    "Password must have 1 number");
+        return true;
     }
 
     // UC8
-    public static boolean uc8(String password) {
+    public boolean uc8(String password) throws UserValidationException {
         String regex = "^(?=.*[A-Z])(?=.*[0-9])(?=[A-Za-z0-9]*[^A-Za-z0-9][A-Za-z0-9]*$).{8,}$";
-        boolean isValidPassword = Pattern.matches(regex, password);
-        return isValidPassword;
+        if (!Pattern.matches(regex, password))
+            throw new UserValidationException(
+                    UserValidationException.Type.INVALID_PASSWORD,
+                    "Password must contain 1 special char");
+        return true;
     }
 
     // UC9
-    public static boolean uc9(String password) {
+    public static boolean uc9(String email) throws UserValidationException {
         String regex = "^[a-zA-Z0-9]+([._+-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z]{2,})(\\.[a-zA-Z]{2,})?$";
-        boolean isValidPassword = Pattern.matches(regex, password);
-        return isValidPassword;
-    }
-
-    public static void main(String[] args) {
-        boolean resultOfUc1 = uc1("hello");
-        System.out.println("Valid name? " + resultOfUc1);
-
-        boolean resultOfUC2 = uc2("Hello Hello");
-        System.out.println("Valid last name? " + resultOfUC2);
-
-        boolean resultOfUc3 = uc3("mail@bl.co");
-        System.out.println("Valid mail? " + resultOfUc3);
-
-        boolean resultOfUc4 = uc4("91 1234567890");
-        System.out.println("Valid phone number? " + resultOfUc4);
-
-        boolean resultOfUc5 = uc5("hello1234");
-        System.out.println("Valid password? " + resultOfUc5);
-
-        boolean resultOfUc6 = uc6("Hello1234");
-        System.out.println("Valid password? " + resultOfUc6);
-
-        boolean resultOfUc7 = uc7("Hello@1234");
-        System.out.println("Valid password? " + resultOfUc7);
-
-        boolean resultOfUc8 = uc8("Hello@1234");
-        System.out.println("Valid password? " + resultOfUc8);
-
-        boolean resultOfUc9 = uc9("abc@mail.com");
-        System.out.println("Valid email? " + resultOfUc9);
-
+        if (!Pattern.matches(regex, email))
+            throw new UserValidationException(
+                    UserValidationException.Type.INVALID_EMAIL,
+                    "Invalid Sample Email");
+        return true;
     }
 }
