@@ -1,12 +1,64 @@
 package com.bl.advance.java.day22.collection;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class AddressBookSystemMain {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         AddressBookSystem book = new AddressBookSystem();
+        Map<String, AddressBookSystem> addressBookSystemMap = new HashMap<>();
+        while (true) {
+            System.out.println("----Address Book System ----");
+            System.out.println("1. Create New Address Book");
+            System.out.println("2. Open Existing Address Book");
+            System.out.println("3. Show All Address Books");
+            System.out.println("4. Exit");
+            System.out.print("Enter Option: ");
 
+            int choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Address Book name");
+                    String name = sc.nextLine();
+                    if (addressBookSystemMap.containsKey(name)) {
+                        System.out.println("Address Book Already Exists!");
+                    } else {
+                        addressBookSystemMap.put(name, new AddressBookSystem());
+                        System.out.println("Address Book Created Successfully!");
+                    }
+                    break;
+                case 2:
+                    System.out.print("Enter Address Book name: ");
+                    String bookName = sc.nextLine();
+
+                    AddressBookSystem bookSystem = addressBookSystemMap.get(bookName);
+                    if (bookSystem == null) {
+                        System.out.println("Address Book Not Found!");
+                    } else {
+                        addContactsInAddressBook(bookSystem);
+                    }
+                    break;
+                case 3:
+                    System.out.println("Available Address Book");
+                    for (String key : addressBookSystemMap.keySet()) {
+                        System.out.println(key);
+                    }
+                    break;
+                case 4:
+                    System.out.println("Exiting...");
+                    System.exit(0);
+            }
+        }
+
+
+    }
+
+    public static void addContactsInAddressBook(AddressBookSystem book) {
+        Scanner sc = new Scanner(System.in);
         while (true) {
             System.out.println("--- Address Book Menu ---");
             System.out.println("1. Add Contact");
