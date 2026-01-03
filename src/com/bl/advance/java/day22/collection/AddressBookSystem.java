@@ -5,17 +5,22 @@ import java.util.List;
 import java.util.Scanner;
 
 public class AddressBookSystem {
-    List<Contacts> contactsArrayList = new ArrayList<>();
+    List<Contacts> contactList = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
 
     public void addContact(Contacts contacts) {
-        contactsArrayList.add(contacts);
+        contactList.add(contacts);
         System.out.println("Contact Added Successfully!");
     }
 
     public void showALlContacts() {
-        for (Contacts contacts : contactsArrayList) {
-            contacts.showContact();
+        if (contactList.isEmpty()) {
+            System.out.println("Address Book is Empty!");
+            return;
+        }
+
+        for (Contacts c : contactList) {
+            c.showContact();
         }
     }
 
@@ -23,7 +28,7 @@ public class AddressBookSystem {
         System.out.print("Enter First name of contact to edit: ");
         String name = sc.nextLine();
 
-        for (Contacts contact : contactsArrayList) {
+        for (Contacts contact : contactList) {
             if (contact.firstName.equalsIgnoreCase(name)) {
                 System.out.println("Contact Found! Enter new details:");
 
@@ -59,9 +64,9 @@ public class AddressBookSystem {
         System.out.print("Enter First name of contact to delete: ");
         String name = sc.nextLine();
 
-        for (Contacts contact : contactsArrayList) {
+        for (Contacts contact : contactList) {
             if (contact.firstName.equalsIgnoreCase(name)) {
-                contactsArrayList.remove(contact);
+                contactList.remove(contact);
                 System.out.println("Contact deleted Successfully");
                 return;
             }
