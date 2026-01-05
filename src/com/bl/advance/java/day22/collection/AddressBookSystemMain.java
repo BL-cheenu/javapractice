@@ -5,10 +5,12 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class AddressBookSystemMain {
+    public static final Map<String, AddressBookSystem> addressBookSystemMap = new HashMap<>();
+    public static final AddressBookSystem book = new AddressBookSystem();
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        AddressBookSystem book = new AddressBookSystem();
-        Map<String, AddressBookSystem> addressBookSystemMap = new HashMap<>();
+
         while (true) {
             System.out.println("----Address Book System ----");
             System.out.println("1. Create New Address Book");
@@ -22,7 +24,7 @@ public class AddressBookSystemMain {
 
             switch (choice) {
                 case 1:
-                    System.out.print("Enter Address Book name");
+                    System.out.print("Enter Address Book name: ");
                     String name = sc.nextLine();
                     if (addressBookSystemMap.containsKey(name)) {
                         System.out.println("Address Book Already Exists!");
@@ -65,7 +67,9 @@ public class AddressBookSystemMain {
             System.out.println("2. Edit Contact");
             System.out.println("3. Show Contacts");
             System.out.println("4. Delete Contacts");
-            System.out.println("5. Exit");
+            System.out.println("5. Search for people by city");
+            System.out.println("6. Search for people by state");
+            System.out.println("7. Exit");
 
             System.out.print("Enter choice : ");
             int choice = sc.nextInt();
@@ -112,6 +116,12 @@ public class AddressBookSystemMain {
                     book.deleteContact();
                     break;
                 case 5:
+                    String searchPersonByCity = sc.nextLine();
+                    book.searchPersonByCity(searchPersonByCity, addressBookSystemMap);
+                case 6:
+                    String searchPersonByState = sc.nextLine();
+                    book.searchPersonByState(searchPersonByState, addressBookSystemMap);
+                case 7:
                     System.out.println("Exiting...");
                     System.exit(0);
             }

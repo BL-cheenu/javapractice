@@ -2,6 +2,7 @@ package com.bl.advance.java.day22.collection;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class AddressBookSystem {
@@ -83,5 +84,29 @@ public class AddressBookSystem {
             }
         }
         System.out.println("Contact Not Found!");
+    }
+
+    public void searchPersonByCity(String city, Map<String, AddressBookSystem> addressBookSystemMap) {
+        System.out.println("People in city : " + city);
+        if (city.isEmpty()) {
+            System.out.println("City must have a value");
+            return;
+        }
+        addressBookSystemMap.values().stream()
+                .flatMap(book -> book.contactList.stream())
+                .filter(contacts -> contacts.city.equalsIgnoreCase(city))
+                .forEach(contacts -> System.out.println(contacts.firstName + " " + contacts.lastName));
+    }
+
+    public void searchPersonByState(String state, Map<String, AddressBookSystem> addressBookSystemMap) {
+        System.out.println("People in city : " + state);
+        if (state.isEmpty()) {
+            System.out.println("City must have a value");
+            return;
+        }
+        addressBookSystemMap.values().stream()
+                .flatMap(book -> book.contactList.stream())
+                .filter(contacts -> contacts.state.equalsIgnoreCase(state))
+                .forEach(contacts -> System.out.println(contacts.firstName + " " + contacts.lastName));
     }
 }
