@@ -132,11 +132,9 @@ public class AddressBookSystemMain {
                     String viewPersonByState = sc.nextLine();
                     book.viewPersonByState(viewPersonByState, addressBookSystemMap);
                 case 9:
-                    String countPersonByCity = sc.nextLine();
-                    book.countPersonByCity(countPersonByCity, addressBookSystemMap);
+                    book.countPersonByCity(addressBookSystemMap);
                 case 10:
-                    String countPersonByState = sc.nextLine();
-                    book.countPersonByState(countPersonByState, addressBookSystemMap);
+                    book.countPersonByState(addressBookSystemMap);
                 case 11:
                     System.out.println("Exiting...");
                     System.exit(0);

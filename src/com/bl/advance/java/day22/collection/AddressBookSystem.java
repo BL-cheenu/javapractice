@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class AddressBookSystem {
     List<Contacts> contactList = new ArrayList<>();
@@ -128,9 +129,29 @@ public class AddressBookSystem {
                 .forEach(c -> System.out.println(c.firstName + " " + c.lastName));
     }
 
-    public void countPersonByCity(String countPersonByCity, Map<String, AddressBookSystem> addressBookSystemMap) {
+    public void countPersonByCity(Map<String, AddressBookSystem> addressBookSystemMap) {
+        System.out.println("---- Count By City ----");
+        List<Contacts> allContacts = addressBookSystemMap.values().stream()
+                .flatMap(book -> book.contactList.stream())
+                .collect(Collectors.toList());
+
+        Map<String, Long> cityCount = allContacts.stream()
+                .collect(Collectors.groupingBy(c -> c.city, Collectors.counting()));
+
+        cityCount.forEach((city, count) -> System.out.println(city + " " + count));
+
     }
 
-    public void countPersonByState(String countPersonByState, Map<String, AddressBookSystem> addressBookSystemMap) {
+    public void countPersonByState(Map<String, AddressBookSystem> addressBookSystemMap) {
+        System.out.println("---- Count By State ----");
+        List<Contacts> allContacts = addressBookSystemMap.values().stream()
+                .flatMap(book -> book.contactList.stream())
+                .collect(Collectors.toList());
+
+        Map<String, Long> stateCount = allContacts.stream()
+                .collect(Collectors.groupingBy(c -> c.city, Collectors.counting()));
+
+        stateCount.forEach((state, count) -> System.out.println(state + " " + count));
+
     }
 }
