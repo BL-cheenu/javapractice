@@ -69,9 +69,11 @@ public class AddressBookSystemMain {
             System.out.println("4. Delete Contacts");
             System.out.println("5. Search for people by city");
             System.out.println("6. Search for people by state");
-            System.out.println("7. Search for people by city");
-            System.out.println("8. Search for people by state");
-            System.out.println("9. Exit");
+            System.out.println("7. view for people by city");
+            System.out.println("8. view for people by state");
+            System.out.println("9. contact person count by city");
+            System.out.println("10. contact person count by state");
+            System.out.println("11. Exit");
 
             System.out.print("Enter choice : ");
             int choice = sc.nextInt();
@@ -130,6 +132,12 @@ public class AddressBookSystemMain {
                     String viewPersonByState = sc.nextLine();
                     book.viewPersonByState(viewPersonByState, addressBookSystemMap);
                 case 9:
+                    String countPersonByCity = sc.nextLine();
+                    book.countPersonByCity(countPersonByCity, addressBookSystemMap);
+                case 10:
+                    String countPersonByState = sc.nextLine();
+                    book.countPersonByState(countPersonByState, addressBookSystemMap);
+                case 11:
                     System.out.println("Exiting...");
                     System.exit(0);
             }

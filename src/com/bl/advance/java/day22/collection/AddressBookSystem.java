@@ -127,4 +127,10 @@ public class AddressBookSystem {
                 .filter(c -> c.state.equalsIgnoreCase(state))
                 .forEach(c -> System.out.println(c.firstName + " " + c.lastName));
     }
+
+    public void countPersonByCity(String countPersonByCity, Map<String, AddressBookSystem> addressBookSystemMap) {
+    }
+
+    public void countPersonByState(String countPersonByState, Map<String, AddressBookSystem> addressBookSystemMap) {
+    }
 }
