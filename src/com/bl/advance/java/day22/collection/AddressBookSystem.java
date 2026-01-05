@@ -109,4 +109,22 @@ public class AddressBookSystem {
                 .filter(contacts -> contacts.state.equalsIgnoreCase(state))
                 .forEach(contacts -> System.out.println(contacts.firstName + " " + contacts.lastName));
     }
+
+    public void viewPersonByCity(String city, Map<String, AddressBookSystem> addressBookSystemMap) {
+        System.out.println("People in City : " + city);
+
+        addressBookSystemMap.values().stream()
+                .flatMap(book -> book.contactList.stream())
+                .filter(c -> c.city.equalsIgnoreCase(city))
+                .forEach(c -> System.out.println(c.firstName + " " + c.lastName));
+    }
+
+    public void viewPersonByState(String state, Map<String, AddressBookSystem> addressBookSystemMap) {
+        System.out.println("People in State : " + state);
+
+        addressBookSystemMap.values().stream()
+                .flatMap(book -> book.contactList.stream())
+                .filter(c -> c.state.equalsIgnoreCase(state))
+                .forEach(c -> System.out.println(c.firstName + " " + c.lastName));
+    }
 }

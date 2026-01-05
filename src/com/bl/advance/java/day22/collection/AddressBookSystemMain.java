@@ -69,7 +69,9 @@ public class AddressBookSystemMain {
             System.out.println("4. Delete Contacts");
             System.out.println("5. Search for people by city");
             System.out.println("6. Search for people by state");
-            System.out.println("7. Exit");
+            System.out.println("7. Search for people by city");
+            System.out.println("8. Search for people by state");
+            System.out.println("9. Exit");
 
             System.out.print("Enter choice : ");
             int choice = sc.nextInt();
@@ -122,6 +124,12 @@ public class AddressBookSystemMain {
                     String searchPersonByState = sc.nextLine();
                     book.searchPersonByState(searchPersonByState, addressBookSystemMap);
                 case 7:
+                    String viewPersonByCity = sc.nextLine();
+                    book.viewPersonByCity(viewPersonByCity, addressBookSystemMap);
+                case 8:
+                    String viewPersonByState = sc.nextLine();
+                    book.viewPersonByState(viewPersonByState, addressBookSystemMap);
+                case 9:
                     System.out.println("Exiting...");
                     System.exit(0);
             }
