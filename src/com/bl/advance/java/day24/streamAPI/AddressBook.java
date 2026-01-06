@@ -158,5 +158,13 @@ public class AddressBook {
     }
 
     public void sortedByPersonName() {
+        if (contactList.isEmpty()) {
+            System.out.println("Address Book is Empty!");
+            return;
+        }
+        System.out.println("Contacts Sorted Alphabetically by Name:");
+        contactList.stream()
+                .sorted((c1, c2) -> c1.firstName.compareToIgnoreCase(c2.firstName))
+                .forEach(System.out::println);
     }
 }
