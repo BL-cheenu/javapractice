@@ -1,7 +1,6 @@
 package com.bl.advance.java.day24.streamAPI;
 
 
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -77,7 +76,10 @@ public class AddressBookStreamApi {
             System.out.println("9. contact person count by city");
             System.out.println("10. contact person count by state");
             System.out.println("11. Sorted by person's name");
-            System.out.println("12. Exit");
+            System.out.println("12. Sorted by City");
+            System.out.println("13. Sorted by State");
+            System.out.println("14. Sorted by Zip");
+            System.out.println("15. Exit");
 
             System.out.print("Enter choice : ");
             int choice = sc.nextInt();
@@ -142,6 +144,12 @@ public class AddressBookStreamApi {
                 case 11:
                     book.sortedByPersonName();
                 case 12:
+                    book.sortedByCity();
+                case 13:
+                    book.sortedByState();
+                case 14:
+                    book.sortedByZip();
+                case 15:
                     System.out.println("Exiting...");
                     System.exit(0);
             }

@@ -167,4 +167,35 @@ public class AddressBook {
                 .sorted((c1, c2) -> c1.firstName.compareToIgnoreCase(c2.firstName))
                 .forEach(System.out::println);
     }
+    public void sortedByCity() {
+        if (contactList.isEmpty()) {
+            System.out.println("Address Book is Empty!");
+            return;
+        }
+
+        contactList.stream()
+                .sorted((c1, c2) -> c1.city.compareToIgnoreCase(c2.city))
+                .forEach(System.out::println);
+    }
+    public void sortedByState() {
+        if (contactList.isEmpty()) {
+            System.out.println("Address Book is Empty!");
+            return;
+        }
+
+        contactList.stream()
+                .sorted((c1, c2) -> c1.state.compareToIgnoreCase(c2.state))
+                .forEach(System.out::println);
+    }
+    public void sortedByZip() {
+        if (contactList.isEmpty()) {
+            System.out.println("Address Book is Empty!");
+            return;
+        }
+
+        contactList.stream()
+                .sorted((c1, c2) -> c1.zip.compareTo(c2.zip))
+                .forEach(System.out::println);
+    }
+
 }
