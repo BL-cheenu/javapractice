@@ -10,6 +10,7 @@ public class HotelReservationSystemMain {
         reservationSystem.addHotels(new Hotel("GHC", 250, 150));
 
         reservationSystem.showHotels();
+        reservationSystem.findCheapestHotel("10Mar2025","11Mar2025");
 
     }
 }
