@@ -1,15 +1,14 @@
 package com.bl.advance.java.day24.streamAPI;
 
-import com.bl.advance.java.day22.collection.AddressBookSystem;
-import com.bl.advance.java.day22.collection.Contacts;
+
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class AddressBookStreamApi {
-    public static final Map<String, AddressBookSystem> addressBookSystemMap = new HashMap<>();
-    public static final AddressBookSystem book = new AddressBookSystem();
+    public static final Map<String, AddressBook> addressBookSystemMap = new HashMap<>();
+    public static final AddressBook book = new AddressBook();
 
 
     public static void main(String[] args) {
@@ -33,7 +32,7 @@ public class AddressBookStreamApi {
                     if (addressBookSystemMap.containsKey(name)) {
                         System.out.println("Address Book Already Exists!");
                     } else {
-                        addressBookSystemMap.put(name, new AddressBookSystem());
+                        addressBookSystemMap.put(name, new AddressBook());
                         System.out.println("Address Book Created Successfully!");
                     }
                     break;
@@ -41,7 +40,7 @@ public class AddressBookStreamApi {
                     System.out.print("Enter Address Book name: ");
                     String bookName = sc.nextLine();
 
-                    AddressBookSystem bookSystem = addressBookSystemMap.get(bookName);
+                    AddressBook bookSystem = addressBookSystemMap.get(bookName);
                     if (bookSystem == null) {
                         System.out.println("Address Book Not Found!");
                     } else {
@@ -63,7 +62,7 @@ public class AddressBookStreamApi {
 
     }
 
-    public static void addContactsInAddressBook(AddressBookSystem book) {
+    public static void addContactsInAddressBook(AddressBook book) {
         Scanner sc = new Scanner(System.in);
         while (true) {
             System.out.println("--- Address Book Menu ---");
@@ -77,7 +76,8 @@ public class AddressBookStreamApi {
             System.out.println("8. view for people by state");
             System.out.println("9. contact person count by city");
             System.out.println("10. contact person count by state");
-            System.out.println("11. Exit");
+            System.out.println("11. Sorted by person's name");
+            System.out.println("12. Exit");
 
             System.out.print("Enter choice : ");
             int choice = sc.nextInt();
@@ -109,7 +109,7 @@ public class AddressBookStreamApi {
                     System.out.print("Enter Email : ");
                     String email = sc.nextLine();
 
-                    com.bl.advance.java.day22.collection.Contacts contact = new Contacts(firstName, lastName, address, city, state, zip, phone, email);
+                    Contacts contact = new Contacts(firstName, lastName, address, city, state, zip, phone, email);
                     book.addContact(contact);
 
                     break;
@@ -140,6 +140,8 @@ public class AddressBookStreamApi {
                 case 10:
                     book.countPersonByState(addressBookSystemMap);
                 case 11:
+                    book.sortedByPersonName();
+                case 12:
                     System.out.println("Exiting...");
                     System.exit(0);
             }
