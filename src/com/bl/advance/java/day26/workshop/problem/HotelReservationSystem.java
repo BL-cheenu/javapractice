@@ -154,4 +154,27 @@ public class HotelReservationSystem {
         }
 
     }
+
+    public Hotel findCheapestBestRatedHotelForRegularCustomer(String startDate, String endDate, String customerType) throws HotelReservationSystemException {
+        validateInputRegular(startDate, endDate, customerType);
+        return hotels.stream()
+                .min(Comparator.comparingInt((Hotel h) -> calculateTotalCost(h, startDate, endDate))
+                        .thenComparing(Hotel::getRating, Comparator.reverseOrder()))
+                .orElseThrow(() -> new HotelReservationSystemException("No Hotels Available"));
+    }
+
+    private void validateInputRegular(String startDate, String endDate, String customerType) throws HotelReservationSystemException {
+
+        if (customerType == null || startDate == null || endDate == null)
+            throw new HotelReservationSystemException("Input cannot be null");
+
+        if (!customerType.equalsIgnoreCase("REGULAR"))
+            throw new HotelReservationSystemException("Only REGULAR customer allowed");
+
+        String dateRegex = "^[0-9]{2}[A-Za-z]{3}[0-9]{4}$";
+
+        if (!startDate.matches(dateRegex) || !endDate.matches(dateRegex))
+            throw new HotelReservationSystemException("Invalid Date Format (Use ddMMyyyy)");
+    }
+
 }

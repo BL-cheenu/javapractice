@@ -22,6 +22,15 @@ public class HotelReservationSystemMain {
         } catch (HotelReservationSystemException e) {
             System.out.println(e);
         }
+        try {
+            Hotel bestHotel = reservationSystem.findCheapestBestRatedHotelForRegularCustomer("10Mar2025","11Mar2025","REGULAR");
+            int price = reservationSystem.calculateTotalCost(bestHotel,"10Mar2025","11Mar2025");
+            System.out.println("Best Hotel: " + bestHotel.getHotelName()
+                    + ", Rating: " + bestHotel.getRating()
+                    + ", Total Cost: " + price);
 
+        } catch (HotelReservationSystemException e){
+            System.out.println(e);
+        }
     }
 }
