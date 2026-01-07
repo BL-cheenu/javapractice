@@ -104,7 +104,7 @@ public class HotelReservationSystem {
                 .max(Comparator.comparingInt((Hotel h) -> calculateRewardCost(h, startDate, endDate))
                         .thenComparing(Hotel::getRating).reversed())
                 .orElse(null);
-        System.out.println("Best reward hotel is: " + hotel.getHotelName() + "Rating: " + hotel.getRating() + " cost is: " + calculateRewardCost(hotel, startDate, endDate));
+        System.out.println("Best reward hotel is: " + hotel.getHotelName() + " Rating: " + hotel.getRating() + " cost is: " + calculateRewardCost(hotel, startDate, endDate));
     }
 
     private int calculateRewardCost(Hotel hotel, String startDate, String endDate) {
