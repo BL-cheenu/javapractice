@@ -61,28 +61,32 @@ public class HotelReservationSystem {
     }
 
     public Hotel findCheapestBestRatedHotel(String startDate, String endDate) {
-        Hotel hotel = hotels.stream()
-                .min(Comparator.comparingInt((Hotel h) -> calculateTotalCost(h, startDate, endDate))
-                        .thenComparing((Hotel h) -> h.getRating()))
+        return hotels.stream()
+                .min(
+                        Comparator.comparingInt((Hotel h) ->
+                                        calculateTotalCost(h, startDate, endDate))
+                                .thenComparing(Hotel::getRating, Comparator.reverseOrder())
+                )
                 .orElse(null);
-        return hotel;
     }
 
     public int calculateTotalCost(Hotel hotel, String startDate, String endDate) {
-        int total = 0;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMMyyyy");
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMMyyyy");
         LocalDate start = LocalDate.parse(startDate, formatter);
-        LocalDate end = LocalDate.parse(endDate, formatter);
+        LocalDate end   = LocalDate.parse(endDate, formatter);
+
+        int total = 0;
         LocalDate date = start;
+
         while (!date.isAfter(end)) {
             DayOfWeek day = date.getDayOfWeek();
 
             if (day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY)
                 total += hotel.getWeekendRate();
-            else {
+            else
                 total += hotel.getWeekdayRate();
-            }
+
             date = date.plusDays(1);
         }
         return total;

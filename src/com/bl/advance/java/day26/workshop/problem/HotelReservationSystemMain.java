@@ -10,9 +10,9 @@ public class HotelReservationSystemMain {
         reservationSystem.addHotels(new Hotel("GHC", 250, 150, 5));
 
         reservationSystem.showHotels();
-        reservationSystem.findCheapestHotel("10Mar2025", "11Mar2025");
 
         Hotel hotel = reservationSystem.findCheapestBestRatedHotel("10Mar2025", "11Mar2025");
-        System.out.println("Cheapest hotel is: " + hotel.getHotelName() + " and rating is: " + hotel.getRating() + "the cost is: " + reservationSystem.calculateTotalCost(hotel, "10Mar2025", "11Mar2025"));
+        int totalCost = reservationSystem.calculateTotalCost(hotel, "10Mar2025", "11Mar2025");
+        System.out.println("Cheapest hotel is: " + hotel.getHotelName() + " and rating is: " + hotel.getRating() + " the cost is: " + totalCost);
     }
 }
