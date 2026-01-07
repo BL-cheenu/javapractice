@@ -16,5 +16,7 @@ public class HotelReservationSystemMain {
         System.out.println("Cheapest hotel is: " + hotel.getHotelName() + " and rating is: " + hotel.getRating() + " the cost is: " + totalCost);
 
         reservationSystem.findBestRatedHotel("10Mar2025", "11Mar2025");
+        reservationSystem.findCheapestBestRatedHotelForRewardCustomer("10Mar2025", "11Mar2025");
+
     }
 }

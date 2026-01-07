@@ -98,4 +98,34 @@ public class HotelReservationSystem {
                 .orElse(null);
         System.out.println("Best rated hotel is: " + hotel.getHotelName() + " and rating is: " + hotel.getRating() + " and the cost is: " + calculateTotalCost(hotel, startDate, endDate));
     }
+
+    public void findCheapestBestRatedHotelForRewardCustomer(String startDate, String endDate) {
+        Hotel hotel = hotels.stream()
+                .max(Comparator.comparingInt((Hotel h) -> calculateRewardCost(h, startDate, endDate))
+                        .thenComparing(Hotel::getRating).reversed())
+                .orElse(null);
+        System.out.println("Best reward hotel is: " + hotel.getHotelName() + "Rating: " + hotel.getRating() + " cost is: " + calculateRewardCost(hotel, startDate, endDate));
+    }
+
+    private int calculateRewardCost(Hotel hotel, String startDate, String endDate) {
+        int total = 0;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMMyyyy");
+        LocalDate start = LocalDate.parse(startDate, formatter);
+        LocalDate end = LocalDate.parse(endDate, formatter);
+
+        LocalDate date = start;
+
+        while (!date.isAfter(end)) {
+            DayOfWeek day = date.getDayOfWeek();
+
+            if (day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY)
+                total += hotel.getRewardWeekendRate();
+            else
+                total += hotel.getRewardWeekdayRate();
+
+            date = date.plusDays(1);
+        }
+        return total;
+    }
 }
