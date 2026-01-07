@@ -74,7 +74,7 @@ public class HotelReservationSystem {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMMyyyy");
         LocalDate start = LocalDate.parse(startDate, formatter);
-        LocalDate end   = LocalDate.parse(endDate, formatter);
+        LocalDate end = LocalDate.parse(endDate, formatter);
 
         int total = 0;
         LocalDate date = start;
@@ -90,5 +90,12 @@ public class HotelReservationSystem {
             date = date.plusDays(1);
         }
         return total;
+    }
+
+    public void findBestRatedHotel(String startDate, String endDate) {
+        Hotel hotel = hotels.stream()
+                .max(Comparator.comparingInt(Hotel::getRating))
+                .orElse(null);
+        System.out.println("Best rated hotel is: " + hotel.getHotelName() + " and rating is: " + hotel.getRating() + " and the cost is: " + calculateTotalCost(hotel, startDate, endDate));
     }
 }
