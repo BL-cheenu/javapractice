@@ -128,4 +128,30 @@ public class HotelReservationSystem {
         }
         return total;
     }
+
+    public void findCheapestBestRatedUsingStream(String startDate, String endDate, String reward) throws HotelReservationSystemException {
+        validateInput(startDate, endDate, reward);
+
+        Hotel hotel = hotels.stream()
+                .min(Comparator.comparingInt((Hotel h) -> calculateRewardCost(h, startDate, endDate))
+                        .thenComparing(Hotel::getRating).reversed())
+                .orElseThrow(() -> new HotelReservationSystemException("No Hotels Found"));
+
+        System.out.println("Best reward hotel is: " + hotel.getHotelName() + " Rating: " + hotel.getRating() + " cost is: " + calculateRewardCost(hotel, startDate, endDate));
+
+    }
+
+    private void validateInput(String startDate, String endDate, String reward) throws HotelReservationSystemException {
+        if (startDate == null || endDate == null || reward == null) {
+            throw new HotelReservationSystemException("Input can't be null.");
+        }
+        if (!reward.equalsIgnoreCase("REWARD")) {
+            throw new HotelReservationSystemException("Only REWARD customer allowed!!");
+        }
+        String dateRegex = "^[0-9]{2}[A-Za-z]{3}[0-9]{4}$";
+        if (!startDate.matches(dateRegex) || !endDate.matches(dateRegex)) {
+            throw new HotelReservationSystemException("Invalid Date format (use only ddMMyyyy)");
+        }
+
+    }
 }

@@ -17,6 +17,11 @@ public class HotelReservationSystemMain {
 
         reservationSystem.findBestRatedHotel("10Mar2025", "11Mar2025");
         reservationSystem.findCheapestBestRatedHotelForRewardCustomer("10Mar2025", "11Mar2025");
+        try {
+            reservationSystem.findCheapestBestRatedUsingStream("10Mar2025", "11Mar2025", "RWARD");
+        } catch (HotelReservationSystemException e) {
+            System.out.println(e);
+        }
 
     }
 }
