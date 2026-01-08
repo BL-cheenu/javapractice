@@ -69,6 +69,7 @@ public class EmployeePayrollServiceMain {
         DirectoryWatchService.countEntries(directory);
         DirectoryWatchService.watchDirectory(directoryPath);
 
-
+        int entries = EmployeePayrollFileService.getNumberOfEntries(filePath);
+        System.out.println("Number of Employee Payroll Entries: " + entries);
     }
 }

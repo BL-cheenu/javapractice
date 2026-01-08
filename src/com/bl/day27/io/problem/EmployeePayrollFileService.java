@@ -44,4 +44,18 @@ public class EmployeePayrollFileService {
 
         System.out.println("Total Payroll Entries Printed: " + count);
     }
+
+    public static int getNumberOfEntries(String filePath) {
+        int count = 0;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            while (reader.readLine() != null) {
+                count++;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
 }
