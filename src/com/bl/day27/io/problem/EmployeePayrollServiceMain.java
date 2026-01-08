@@ -2,10 +2,16 @@ package com.bl.day27.io.problem;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class EmployeePayrollServiceMain {
-    public static void main(String[] args) {
+    private static final Map<WatchKey, Path> keyMap = new HashMap<>();
+
+
+    public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter Employee Id: ");
@@ -60,9 +66,77 @@ public class EmployeePayrollServiceMain {
             }
         }
 
-        if (file.delete()) {
-            System.out.println("File deleted successfully");
-        }
+//        if (file.delete()) {
+//            System.out.println("File deleted successfully");
+//        }
         System.out.println("File exists after deletion: " + file.exists());
+
+        WatchService watchService = null;
+        try {
+            watchService = FileSystems.getDefault().newWatchService();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        registerAll(Paths.get(directoryPath), watchService);
+
+        countEntries(directory);
+
+        System.out.println("Watching directory for changes (Press Ctrl+C to stop)...");
+
+        while (true) {
+            WatchKey key = null;
+            try {
+                key = watchService.take();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            Path dir = keyMap.get(key);
+
+            for (WatchEvent<?> event : key.pollEvents()) {
+                Path changed = dir.resolve((Path) event.context());
+                System.out.println(event.kind().name() + " : " + changed);
+
+                if (event.kind() == StandardWatchEventKinds.ENTRY_CREATE &&
+                        Files.isDirectory(changed)) {
+                    registerAll(changed, watchService);
+                }
+            }
+            key.reset();
+
+
+        }
+    }
+
+    private static void countEntries(File directory) {
+        int count = 0;
+        File[] files = directory.listFiles();
+
+        if (files != null) {
+            for (File file : files) {
+                count++;
+                if (file.isDirectory() && file.listFiles() != null) {
+                    count += file.listFiles().length;
+                }
+            }
+        }
+        System.out.println("Total entries (files + directories): " + count);
+    }
+
+    private static void registerAll(Path start, WatchService watchService) throws IOException {
+        Files.walk(start)
+                .filter(Files::isDirectory)
+                .forEach(path -> {
+                    try {
+                        WatchKey key = path.register(
+                                watchService,
+                                StandardWatchEventKinds.ENTRY_CREATE,
+                                StandardWatchEventKinds.ENTRY_DELETE,
+                                StandardWatchEventKinds.ENTRY_MODIFY
+                        );
+                        keyMap.put(key, path);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 }
