@@ -16,4 +16,13 @@ public class EmployeePayrollService {
         System.out.println("Employee Name : " + name);
         System.out.println("Salary        : " + salary);
     }
+
+    @Override
+    public String toString() {
+        return "EmployeePayrollService{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", salary=" + salary +
+                '}';
+    }
 }
