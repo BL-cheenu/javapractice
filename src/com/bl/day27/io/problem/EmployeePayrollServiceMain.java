@@ -71,5 +71,8 @@ public class EmployeePayrollServiceMain {
 
         int entries = EmployeePayrollFileService.getNumberOfEntries(filePath);
         System.out.println("Number of Employee Payroll Entries: " + entries);
+
+        EmployeePayrollFileService.analyzePayrollFile(filePath);
+
     }
 }

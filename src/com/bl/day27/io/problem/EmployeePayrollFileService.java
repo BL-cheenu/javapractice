@@ -58,4 +58,39 @@ public class EmployeePayrollFileService {
 
         return count;
     }
+
+    public static void analyzePayrollFile(String filePath) {
+
+        int employeeCount = 0;
+        double totalSalary = 0;
+        double maxSalary = Double.MIN_VALUE;
+        double minSalary = Double.MAX_VALUE;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+
+                double salary = Double.parseDouble(data[2]);
+
+                employeeCount++;
+                totalSalary += salary;
+
+                maxSalary = Math.max(maxSalary, salary);
+                minSalary = Math.min(minSalary, salary);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        double averageSalary = employeeCount > 0 ? totalSalary / employeeCount : 0;
+
+        System.out.println("--- Payroll Analysis ---");
+        System.out.println("Total Employees : " + employeeCount);
+        System.out.println("Total Salary    : " + totalSalary);
+        System.out.println("Average Salary  : " + averageSalary);
+        System.out.println("Max Salary      : " + maxSalary);
+        System.out.println("Min Salary      : " + minSalary);
+    }
 }
