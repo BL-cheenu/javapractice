@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class DirectoryWatchService {
     private static final Map<WatchKey, Path> keyMap = new HashMap<>();
@@ -15,22 +16,44 @@ public class DirectoryWatchService {
         registerAll(Paths.get(directoryPath), watchService);
 
         System.out.println("Watching directory for changes...");
+        System.out.println("Type 'exit' and press ENTER to stop.");
+
+        Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            WatchKey key = watchService.take();
+
+            // Poll instead of take (IMPORTANT)
+            WatchKey key = watchService.poll(1, java.util.concurrent.TimeUnit.SECONDS);
+
+            // Check user input
+            if (System.in.available() > 0) {
+                String input = scanner.nextLine();
+                if (input.equalsIgnoreCase("exit")) {
+                    System.out.println("Stopping Watch Service...");
+                    break;
+                }
+            }
+
+            if (key == null) {
+                continue;
+            }
+
             Path dir = keyMap.get(key);
 
             for (WatchEvent<?> event : key.pollEvents()) {
-                Path changed = dir.resolve((Path) event.context());
-                System.out.println(event.kind().name() + " : " + changed);
+                Path changedPath = dir.resolve((Path) event.context());
+                System.out.println(event.kind().name() + " : " + changedPath);
 
                 if (event.kind() == StandardWatchEventKinds.ENTRY_CREATE &&
-                        Files.isDirectory(changed)) {
-                    registerAll(changed, watchService);
+                        Files.isDirectory(changedPath)) {
+                    registerAll(changedPath, watchService);
                 }
             }
             key.reset();
         }
+
+        watchService.close();
+        System.out.println("Watch Service stopped cleanly.");
     }
 
     private static void registerAll(Path start, WatchService watchService) throws IOException {

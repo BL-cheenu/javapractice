@@ -27,4 +27,21 @@ public class EmployeePayrollFileService {
         }
         return count;
     }
+
+    public static void printPayrolls(String filePath) {
+        System.out.println("--- Employee Payrolls from File ---");
+        int count = 0;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+                count++;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Total Payroll Entries Printed: " + count);
+    }
 }
