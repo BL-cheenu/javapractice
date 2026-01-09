@@ -1,15 +1,25 @@
 package com.bl.day27.io.problem;
 
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.CSVWriter;
+
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+
 public class AddressBook {
     List<Contacts> contactList = new ArrayList<>();
+
     private static final String FILE_PATH = "D:\\learning\\AddressBook.txt";
+    private static final String CSV_FILE = "D:\\learning\\AddressBook.csv";
+
+
     Scanner sc = new Scanner(System.in);
 
     public void addContact(Contacts contacts) {
@@ -244,4 +254,74 @@ public class AddressBook {
             throw new RuntimeException(e);
         }
     }
+
+    public static void writeContactsToCSV(List<Contacts> contactList) {
+
+        File file = new File(CSV_FILE);
+
+        try {
+            file.getParentFile().mkdirs();
+
+            boolean fileIsEmpty = !file.exists() || file.length() == 0;
+
+            try (CSVWriter writer =
+                         new CSVWriter(new FileWriter(file, true))) { // APPEND MODE
+
+                if (fileIsEmpty) {
+                    writer.writeNext(new String[]{
+                            "FirstName","LastName","Address","City",
+                            "State","Zip","Phone","Email"
+                    });
+                }
+
+                for (Contacts c : contactList) {
+                    writer.writeNext(new String[]{
+                            c.firstName,
+                            c.lastName,
+                            c.address,
+                            c.city,
+                            c.state,
+                            c.zip,
+                            c.phoneNumber,
+                            c.email
+                    });
+                }
+            }
+
+            System.out.println("Contacts appended to CSV successfully.");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static List<Contacts> readContactsFromCSV() {
+
+        List<Contacts> contactList = new ArrayList<>();
+
+        try (CSVReader reader = new CSVReaderBuilder(
+                new InputStreamReader(
+                        new FileInputStream(CSV_FILE),
+                        StandardCharsets.UTF_8))
+                .withSkipLines(1)
+                .build()) {
+
+            String[] line;
+
+            while ((line = reader.readNext()) != null) {
+                contactList.add(new Contacts(
+                        line[0], line[1], line[2], line[3],
+                        line[4], line[5], line[6], line[7]
+                ));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return contactList;
+    }
+
+
 }

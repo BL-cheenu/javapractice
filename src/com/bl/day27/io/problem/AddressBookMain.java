@@ -80,7 +80,9 @@ public class AddressBookMain {
             System.out.println("14. Sorted by Zip");
             System.out.println("15. Write Address Book to File");
             System.out.println("16. Read Address Book from File");
-            System.out.println("17. Exit");
+            System.out.println("17. Write Address Book to CSV");
+            System.out.println("18. Read Address Book from CSV");
+            System.out.println("19. Exit");
 
             System.out.print("Enter choice : ");
             int choice = sc.nextInt();
@@ -167,8 +169,16 @@ public class AddressBookMain {
                 case 16:
                     book.readContactsFromFile();
                     break;
-
                 case 17:
+                    book.writeContactsToCSV(book.contactList);
+                    break;
+                case 18:
+                    book.contactList.clear();
+                    book.contactList.addAll(book.readContactsFromCSV());
+                    System.out.println("Contacts loaded into Address Book: " + book.contactList.size());
+                    break;
+
+                case 19:
                     System.out.println("Exiting...");
                     System.exit(0);
             }
