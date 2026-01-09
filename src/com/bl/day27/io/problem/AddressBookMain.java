@@ -127,27 +127,37 @@ public class AddressBookMain {
                 case 5:
                     String searchPersonByCity = sc.nextLine();
                     book.searchPersonByCity(searchPersonByCity, addressBookSystemMap);
+                    break;
                 case 6:
                     String searchPersonByState = sc.nextLine();
                     book.searchPersonByState(searchPersonByState, addressBookSystemMap);
+                    break;
                 case 7:
                     String viewPersonByCity = sc.nextLine();
                     book.viewPersonByCity(viewPersonByCity, addressBookSystemMap);
+                    break;
                 case 8:
                     String viewPersonByState = sc.nextLine();
                     book.viewPersonByState(viewPersonByState, addressBookSystemMap);
+                    break;
                 case 9:
                     book.countPersonByCity(addressBookSystemMap);
+                    break;
                 case 10:
                     book.countPersonByState(addressBookSystemMap);
+                    break;
                 case 11:
                     book.sortedByPersonName();
+                    break;
                 case 12:
                     book.sortedByCity();
+                    break;
                 case 13:
                     book.sortedByState();
+                    break;
                 case 14:
                     book.sortedByZip();
+                    break;
                 case 15:
                     System.out.println("Exiting...");
                     System.exit(0);
