@@ -78,7 +78,9 @@ public class AddressBookMain {
             System.out.println("12. Sorted by City");
             System.out.println("13. Sorted by State");
             System.out.println("14. Sorted by Zip");
-            System.out.println("15. Exit");
+            System.out.println("15. Write Address Book to File");
+            System.out.println("16. Read Address Book from File");
+            System.out.println("17. Exit");
 
             System.out.print("Enter choice : ");
             int choice = sc.nextInt();
@@ -159,6 +161,14 @@ public class AddressBookMain {
                     book.sortedByZip();
                     break;
                 case 15:
+                    book.writeContactsToFile(book.contactList);
+                    break;
+
+                case 16:
+                    book.readContactsFromFile();
+                    break;
+
+                case 17:
                     System.out.println("Exiting...");
                     System.exit(0);
             }

@@ -1,5 +1,6 @@
 package com.bl.day27.io.problem;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.stream.Collectors;
 
 public class AddressBook {
     List<Contacts> contactList = new ArrayList<>();
+    private static final String FILE_PATH = "D:\\learning\\AddressBook.txt";
     Scanner sc = new Scanner(System.in);
 
     public void addContact(Contacts contacts) {
@@ -165,6 +167,7 @@ public class AddressBook {
                 .sorted((c1, c2) -> c1.firstName.compareToIgnoreCase(c2.firstName))
                 .forEach(System.out::println);
     }
+
     public void sortedByCity() {
         if (contactList.isEmpty()) {
             System.out.println("Address Book is Empty!");
@@ -175,6 +178,7 @@ public class AddressBook {
                 .sorted((c1, c2) -> c1.city.compareToIgnoreCase(c2.city))
                 .forEach(System.out::println);
     }
+
     public void sortedByState() {
         if (contactList.isEmpty()) {
             System.out.println("Address Book is Empty!");
@@ -185,6 +189,7 @@ public class AddressBook {
                 .sorted((c1, c2) -> c1.state.compareToIgnoreCase(c2.state))
                 .forEach(System.out::println);
     }
+
     public void sortedByZip() {
         if (contactList.isEmpty()) {
             System.out.println("Address Book is Empty!");
@@ -194,5 +199,49 @@ public class AddressBook {
         contactList.stream()
                 .sorted((c1, c2) -> c1.zip.compareTo(c2.zip))
                 .forEach(System.out::println);
+    }
+
+    public void writeContactsToFile(List<Contacts> contactList) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+            for (Contacts c : contactList) {
+                writer.write(
+                        c.firstName + "," +
+                                c.lastName + "," +
+                                c.address + "," +
+                                c.city + "," +
+                                c.state + "," +
+                                c.zip + "," +
+                                c.phoneNumber + "," +
+                                c.email
+                );
+                writer.close();
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void readContactsFromFile() {
+        System.out.println("--- Reading Address Book File ---");
+
+        try(BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+             while ((line = reader.readLine()) != null){
+                 String[] data = line.split(",");
+
+                 System.out.println(
+                         "Name : " + data[0] + " " + data[1] +
+                                 ", City : " + data[3] +
+                                 ", Phone : " + data[6]
+                 );
+             }
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
