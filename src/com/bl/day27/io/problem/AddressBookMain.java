@@ -82,7 +82,9 @@ public class AddressBookMain {
             System.out.println("16. Read Address Book from File");
             System.out.println("17. Write Address Book to CSV");
             System.out.println("18. Read Address Book from CSV");
-            System.out.println("19. Exit");
+            System.out.println("19. Write Address Book to json");
+            System.out.println("20. Read Address Book from json");
+            System.out.println("21. Exit");
 
             System.out.print("Enter choice : ");
             int choice = sc.nextInt();
@@ -177,8 +179,14 @@ public class AddressBookMain {
                     book.contactList.addAll(book.readContactsFromCSV());
                     System.out.println("Contacts loaded into Address Book: " + book.contactList.size());
                     break;
-
                 case 19:
+                    book.writeToJson(book.contactList);
+                    break;
+                case 20:
+                    book.contactList.clear();
+                    book.contactList.addAll(book.readFromJson());
+                    break;
+                case 21:
                     System.out.println("Exiting...");
                     System.exit(0);
             }

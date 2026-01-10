@@ -1,10 +1,14 @@
 package com.bl.day27.io.problem;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +22,8 @@ public class AddressBook {
 
     private static final String FILE_PATH = "D:\\learning\\AddressBook.txt";
     private static final String CSV_FILE = "D:\\learning\\AddressBook.csv";
+    private static final String JSON_FILE = "D:\\learning\\AddressBook.json";
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 
     Scanner sc = new Scanner(System.in);
@@ -322,6 +328,36 @@ public class AddressBook {
 
         return contactList;
     }
+    public static void writeToJson(List<Contacts> contactList) {
 
+        if (contactList.isEmpty()) {
+            System.out.println("No contacts to write into JSON.");
+            return;
+        }
+
+        try (FileWriter writer = new FileWriter(JSON_FILE)) {
+            gson.toJson(contactList, writer);
+            System.out.println("Address Book written to JSON successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static List<Contacts> readFromJson() {
+        List<Contacts> contactList = new ArrayList<>();
+        try (FileReader reader = new FileReader(JSON_FILE)) {
+
+            Type listType = new TypeToken<List<Contacts>>() {}.getType();
+            contactList = gson.fromJson(reader, listType);
+
+            if (contactList == null) {
+                contactList = new ArrayList<>();
+            }
+            System.out.println("Contacts loaded from JSON: " + contactList.size());
+        } catch (Exception e) {
+            System.out.println("JSON file not found or empty.");
+        }
+        return contactList;
+    }
 
 }
