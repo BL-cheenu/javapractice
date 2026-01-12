@@ -1,15 +1,12 @@
 package com.bl.day29.practice;
 
 public class Singleton {
-    private static Singleton instance;
+    private static final Singleton INSTANCE = new Singleton();
 
     private Singleton() {
     }
 
-    public static synchronized Singleton getInstance() {
-        if (instance == null) {
-            instance = new Singleton();
-        }
-        return instance;
+    public static Singleton getInstance() {
+        return INSTANCE;
     }
 }
