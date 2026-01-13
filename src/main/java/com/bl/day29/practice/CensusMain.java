@@ -7,8 +7,12 @@ public class CensusMain {
 
         try {
             StateCensusAnalyser analyser = new StateCensusAnalyser();
-            int count = analyser.loadIndiaStateCensusData("D:\\Workspace\\IndiaStateCensusData.csv");
-            System.out.println("Total Records Loaded: " + count);
+            int censusCount  = analyser.loadIndiaStateCensusData("D:\\Workspace\\IndiaStateCensusData.csv");
+            System.out.println("Total Records Loaded: " + censusCount );
+            int stateCodeCount = analyser.loadIndiaStateCode(
+                    "D:\\Workspace\\IndiaStateCode.csv"
+            );
+            System.out.println("State Code Records: " + stateCodeCount);
         } catch (StateCensusException e) {
             e.printStackTrace();
         }

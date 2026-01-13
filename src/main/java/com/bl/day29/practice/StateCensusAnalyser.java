@@ -37,4 +37,33 @@ public class StateCensusAnalyser {
             );
         }
     }
+
+    public int loadIndiaStateCode(String csvFilePath)
+            throws StateCensusException {
+
+        try {
+            Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
+
+            CsvToBean<CSVStateCode> csvToBean =
+                    new CsvToBeanBuilder<CSVStateCode>(reader)
+                            .withType(CSVStateCode.class)
+                            .withIgnoreLeadingWhiteSpace(true)
+                            .build();
+
+            Iterator<CSVStateCode> iterator = csvToBean.iterator();
+
+            int count = 0;
+            while (iterator.hasNext()) {
+                iterator.next();
+                count++;
+            }
+            return count;
+
+        } catch (Exception e) {
+            throw new StateCensusException(
+                    "Invalid state code file",
+                    StateCensusException.ExceptionType.FILE_NOT_FOUND
+            );
+        }
+    }
 }
