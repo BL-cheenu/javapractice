@@ -18,7 +18,7 @@ Emphasis on clean code, documentation, and industry workflows
 
 The final phase simulates a real software development environment, including requirement analysis, implementation, testing, optimization, and evaluation. By the end of the program, learners are equipped to contribute effectively to Java-based backend projects and confidently showcase their work through a professional GitHub repository.
 
-📌 Sample Capstone Project
+Sample Capstone Project
 Project Title: Student Management System (REST API)
 
 Description:
