@@ -9,9 +9,9 @@ public class InvoiceGeneratorTest {
     public void givenMultipleRides_ShouldReturnEnhancedInvoiceSummary() {
         InvoiceGenerator generator = new InvoiceGenerator();
         Ride[] rides = {
-                new Ride(2.0, 5),
-                new Ride(3.0, 10),
-                new Ride(1.0, 3)
+                new Ride(RideType.NORMAL,2.0, 5),
+                new Ride(RideType.NORMAL,3.0, 10),
+                new Ride(RideType.NORMAL,1.0, 3)
         };
         InvoiceSummary summary = generator.calculateInvoice(rides);
         Assertions.assertEquals(3, summary.totalRides);
@@ -24,8 +24,8 @@ public class InvoiceGeneratorTest {
 
         RideRepository repository = new RideRepository();
         Ride[] rides = {
-                new Ride(2.0, 5),
-                new Ride(3.0, 10)
+                new Ride(RideType.NORMAL,2.0, 5),
+                new Ride(RideType.NORMAL,3.0, 10)
         };
         repository.addRides("user1", rides);
 
@@ -35,5 +35,21 @@ public class InvoiceGeneratorTest {
         Assertions.assertEquals(2, summary.totalRides);
         Assertions.assertEquals(65.0, summary.totalFare, 0.0);
         Assertions.assertEquals(32.5, summary.averageFare, 0.0);
+    }
+    @Test
+    public void givenNormalAndPremiumRides_ShouldReturnCorrectInvoice() {
+
+        InvoiceGenerator generator = new InvoiceGenerator();
+
+        Ride[] rides = {
+                new Ride(RideType.NORMAL, 2.0, 5),     // 25
+                new Ride(RideType.PREMIUM, 1.0, 5)     // 25
+        };
+
+        InvoiceSummary summary = generator.calculateInvoice(rides);
+
+        Assertions.assertEquals(2, summary.totalRides);
+        Assertions.assertEquals(50.0, summary.totalFare, 0.0);
+        Assertions.assertEquals(25.0, summary.averageFare, 0.0);
     }
 }
