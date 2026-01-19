@@ -1,6 +1,7 @@
 package day30.CabInvoiceGeneratorTest;
 
 import com.bl.day30.invoicegenerator.CabInvoiceGenerator;
+import com.bl.day30.invoicegenerator.Ride;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -17,5 +18,16 @@ public class CabInvoiceGeneratorTest {
         CabInvoiceGenerator generator = new CabInvoiceGenerator();
         double fare = generator.calculateFare(0.1,1);
         Assertions.assertEquals(5.0, fare);
+    }
+
+    @Test
+    public void givenMultipleRides_ShouldReturnTotalFare() {
+        CabInvoiceGenerator generator = new CabInvoiceGenerator();
+        Ride[] rides = {
+                new Ride(2.0, 5),
+                new Ride(0.1, 1)
+        };
+        double totalFare = generator.calculateFare(rides);
+        Assertions.assertEquals(30.0, totalFare);
     }
 }
