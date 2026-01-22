@@ -15,5 +15,8 @@ public class JDBMain {
         LocalDate startDate = LocalDate.of(2024, 1, 1);
         List<EmployeePayroll> employees = employeePayrollService.getEmployeePayrollFromStartDate(startDate);
         employees.forEach(System.out::println);
+
+        List<EmployeePayrollStats> employeePayrollStats = employeePayrollService.getEmployeePayrollStats();
+        employeePayrollStats.forEach(System.out::println);
     }
 }

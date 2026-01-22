@@ -1,9 +1,6 @@
 package day34.jdbc;
 
-import com.bl.day34.jdbc.DBConnection;
-import com.bl.day34.jdbc.EmployeePayroll;
-import com.bl.day34.jdbc.EmployeePayrollException;
-import com.bl.day34.jdbc.EmployeePayrollServiceImpl;
+import com.bl.day34.jdbc.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -56,4 +53,12 @@ public class EmployeePayrollServiceTest {
         Assertions.assertTrue(employeePayrolls.size() > 0);
     }
 
+    @Test
+    public void givenPayrollDB_WhenQueried_ShouldReturnStatsByGender() throws EmployeePayrollException {
+        List<EmployeePayrollStats> employeePayrollStats = employeePayrollService.getEmployeePayrollStats();
+        Assertions.assertNotNull(employeePayrollStats);
+        Assertions.assertTrue(employeePayrollStats.size() > 0);
+
+        employeePayrollStats.forEach(System.out::println);
+    }
 }

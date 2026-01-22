@@ -69,4 +69,28 @@ public class EmployeePayrollServiceImpl {
         }
         return employeePayrolls;
     }
+
+    public List<EmployeePayrollStats> getEmployeePayrollStats() throws EmployeePayrollException {
+        List<EmployeePayrollStats> employeePayrollStats = new ArrayList<>();
+        String sql = "select gender, SUM(salary) as total_salary, AVG(salary) as avg_salary, MIN(salary) as min_salary, MAX(salary) as max_salary, count(id) as emp_count from payroll_service.employee_payroll group by gender";
+
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                employeePayrollStats.add(new EmployeePayrollStats(
+                        resultSet.getString("gender"),
+                        resultSet.getDouble("total_salary"),
+                        resultSet.getDouble("avg_salary"),
+                        resultSet.getDouble("min_salary"),
+                        resultSet.getDouble("max_salary"),
+                        resultSet.getInt("emp_count")
+                ));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return employeePayrollStats;
+    }
 }
