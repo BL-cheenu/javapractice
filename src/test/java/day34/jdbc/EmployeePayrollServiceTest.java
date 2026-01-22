@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 public class EmployeePayrollServiceTest {
@@ -46,4 +47,13 @@ public class EmployeePayrollServiceTest {
             return false;
         }
     }
+
+    @Test
+    public void givenStartDate_WhenRetrievedTillToday_ShouldReturnEmployees() throws EmployeePayrollException {
+        LocalDate localDate = LocalDate.of(2024, 1, 1);
+        List<EmployeePayroll> employeePayrolls = employeePayrollService.getEmployeePayrollFromStartDate(localDate);
+        Assertions.assertNotNull(employeePayrolls);
+        Assertions.assertTrue(employeePayrolls.size() > 0);
+    }
+
 }

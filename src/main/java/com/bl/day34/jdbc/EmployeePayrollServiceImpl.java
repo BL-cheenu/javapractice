@@ -33,7 +33,7 @@ public class EmployeePayrollServiceImpl {
         String sql = "update payroll_service.employee_payroll set salary = ? where name = ?";
 
         try (Connection connection = DBConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setDouble(1, salary);
             preparedStatement.setString(2, employeeName);
@@ -42,5 +42,31 @@ public class EmployeePayrollServiceImpl {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public List<EmployeePayroll> getEmployeePayrollFromStartDate(LocalDate startDate) throws EmployeePayrollException {
+        List<EmployeePayroll> employeePayrolls = new ArrayList<>();
+        LocalDate currentDate = LocalDate.now();
+        String sql = "select id, name, salary, start_date from payroll_service.employee_payroll where start_date Between ? and ?";
+
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+
+            preparedStatement.setString(1, startDate.toString());
+            preparedStatement.setString(2, currentDate.toString());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                int salary = resultSet.getInt("salary");
+                LocalDate startDate1 = resultSet.getDate("start_date").toLocalDate();
+
+                employeePayrolls.add(new EmployeePayroll(id, name, salary, startDate1));
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        return employeePayrolls;
     }
 }
