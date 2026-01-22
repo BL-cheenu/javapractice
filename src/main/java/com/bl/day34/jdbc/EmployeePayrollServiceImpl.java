@@ -1,9 +1,6 @@
 package com.bl.day34.jdbc;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +23,24 @@ public class EmployeePayrollServiceImpl {
 
                 employeePayrolls.add(new EmployeePayroll(id, name, salary, startDate));
             }
-        } catch (SQLException e) {
-            throw new EmployeePayrollException("Unable to get the data");
+        } catch (Exception e) {
+            throw new EmployeePayrollException("Unable to get employee payroll data");
         }
         return employeePayrolls;
+    }
+
+    public void updateEmployeeSalary(String employeeName, double salary) throws EmployeePayrollException {
+        String sql = "update payroll_service.employee_payroll set salary = ? where name = ?";
+
+        try (Connection connection = DBConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setDouble(1, salary);
+            preparedStatement.setString(2, employeeName);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
