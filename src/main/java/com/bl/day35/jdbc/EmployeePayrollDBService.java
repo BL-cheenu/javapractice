@@ -32,8 +32,7 @@ public class EmployeePayrollDBService {
         return null;
     }
 
-    public EmployeePayroll addEmployeeWithPayrollDetails(
-            String name, double salary, String gender, LocalDate startDate) throws EmployeePayrollException {
+    public static EmployeePayroll addEmployeeWithPayrollDetails(String name, double salary, String gender) throws EmployeePayrollException {
 
         String employeeSql = "insert into payroll_service.employee_payroll (name, salary, gender, start_date) values (?, ?, ?, ?)";
         String payrollSql = "insert into payroll_service.payroll_details (employee_id, basic_pay, deductions, taxable_pay, tax, net_pay) values (?, ?, ?, ?, ?, ?)";
@@ -45,7 +44,7 @@ public class EmployeePayrollDBService {
                 empStmt.setString(1, name);
                 empStmt.setDouble(2, salary);
                 empStmt.setString(3, gender);
-                empStmt.setDate(4, Date.valueOf(startDate));
+                empStmt.setDate(4,java.sql.Date.valueOf(LocalDate.now()));
                 empStmt.executeUpdate();
 
                 ResultSet rs = empStmt.getGeneratedKeys();
@@ -68,7 +67,7 @@ public class EmployeePayrollDBService {
                     payrollStmt.executeUpdate();
                 }
                 connection.commit();
-                return new EmployeePayroll(employeeId, name, salary, gender, startDate);
+                return new EmployeePayroll(employeeId, name, salary, gender,LocalDate.now());
             }
         } catch (Exception e) {
             throw new EmployeePayrollException("Unable to add employee with payroll details", e);

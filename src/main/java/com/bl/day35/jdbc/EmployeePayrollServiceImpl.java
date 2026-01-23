@@ -6,4 +6,9 @@ public class EmployeePayrollServiceImpl {
         EmployeePayroll employeePayroll =EmployeePayrollDBService.addEmployeeToDB(name, salary, gender);
         return employeePayroll;
     }
+
+    public EmployeePayroll addEmployeePayrollDetails(String name, double salary, String gender) throws EmployeePayrollException {
+        EmployeePayroll employeePayroll =EmployeePayrollDBService.addEmployeeWithPayrollDetails(name, salary, gender);
+        return employeePayroll;
+    }
 }
