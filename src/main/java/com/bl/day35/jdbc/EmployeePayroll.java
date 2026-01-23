@@ -8,13 +8,15 @@ public class EmployeePayroll {
     private double salary;
     private String gender;
     private LocalDate startDate;
+    private boolean isActive;
 
-    public EmployeePayroll(int id, String name, double salary, String gender, LocalDate startDate) {
+    public EmployeePayroll(int id, String name, double salary, String gender, LocalDate startDate, boolean isActive) {
         this.id = id;
         this.name = name;
         this.salary = salary;
         this.gender = gender;
         this.startDate = startDate;
+        this.isActive = isActive;
     }
 
     public int getId() {
@@ -57,6 +59,14 @@ public class EmployeePayroll {
         this.startDate = startDate;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
     @Override
     public String toString() {
         return "EmployeePayroll{" +
@@ -65,6 +75,7 @@ public class EmployeePayroll {
                 ", salary=" + salary +
                 ", gender='" + gender + '\'' +
                 ", startDate=" + startDate +
+                ", isActive=" + isActive +
                 '}';
     }
 }
