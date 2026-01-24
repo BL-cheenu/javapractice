@@ -2,6 +2,7 @@ package com.bl.day37.workshop;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class AddressBook {
 
@@ -22,6 +23,42 @@ public class AddressBook {
         for (Person person : addresses) {
             System.out.println(person);
             System.out.println("----------------------");
+        }
+    }
+
+    public void editPerson(String firstName) {
+        Scanner sc = new Scanner(System.in);
+        boolean found = false;
+
+        for (Person person : addresses) {
+            if (person.getFirstName().equals(firstName)) {
+                found = true;
+
+                System.out.print("Enter New Address: ");
+                person.setAddress(sc.nextLine());
+
+                System.out.print("Enter New City: ");
+                person.setCity(sc.nextLine());
+
+                System.out.print("Enter New State: ");
+                person.setState(sc.nextLine());
+
+                System.out.print("Enter New Zip: ");
+                person.setZip(sc.nextLine());
+
+                System.out.print("Enter New Email: ");
+                person.setEmail(sc.nextLine());
+
+                System.out.print("Enter New Phone Number: ");
+                person.setPhoneNumber(sc.nextLine());
+
+                System.out.println("Person details updated successfully!");
+                break;
+            }
+        }
+
+        if (!found) {
+            System.out.println("Person not found!");
         }
     }
 }
