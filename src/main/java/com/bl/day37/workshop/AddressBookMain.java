@@ -22,7 +22,9 @@ public class AddressBookMain {
             System.out.println("11. Search Person by State");
             System.out.println("12. Write to JSON");
             System.out.println("13. Read from JSON");
-            System.out.println("14. Exit");
+            System.out.println("14. Write to CSV");
+            System.out.println("15. Read from CSV");
+            System.out.println("16. Exit");
             System.out.print("Choose option: ");
 
             int choice = sc.nextInt();
@@ -115,6 +117,14 @@ public class AddressBookMain {
                     break;
 
                 case 14:
+                    addressBook.writeToCsv();
+                    break;
+
+                case 15:
+                    addressBook.readFromCsv();
+                    break;
+
+                case 16:
                     System.out.println("Exit");
                     System.exit(0);
                     return;

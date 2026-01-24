@@ -2,6 +2,10 @@ package com.bl.day37.workshop;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -10,6 +14,7 @@ import java.util.stream.Collectors;
 
 public class AddressBook {
     private static final String FILE_PATH = "D:\\learning\\AddressBook.txt";
+    private static final String CSV_FILE = "D:\\learning\\AddressBook.csv";
     final Gson gson = new Gson();
     List<Person> addresses = new ArrayList<>();
     Map<String, List<Person>> cityMap = new HashMap<>();
@@ -197,7 +202,6 @@ public class AddressBook {
 
     public void readFromJson() {
         try (Reader reader = new FileReader(FILE_PATH)) {
-
             Type listType = new TypeToken<List<Person>>() {}.getType();
             addresses = gson.fromJson(reader, listType);
 
@@ -206,6 +210,29 @@ public class AddressBook {
             }
             System.out.println("Address Book loaded from JSON file.");
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeToCsv() {
+        try (Writer writer = new FileWriter(CSV_FILE)) {
+            StatefulBeanToCsv<Person> beanToCsv = new StatefulBeanToCsvBuilder<Person>(writer).build();
+            beanToCsv.write(addresses);
+            System.out.println("Address Book written to CSV file.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void readFromCsv() {
+        try (Reader reader = new FileReader(CSV_FILE)) {
+            CsvToBean<Person> csvToBean = new CsvToBeanBuilder<Person>(reader)
+                    .withType(Person.class)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .build();
+            addresses = csvToBean.parse();
+            System.out.println("Address Book loaded from CSV file.");
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
