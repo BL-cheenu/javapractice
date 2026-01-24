@@ -98,4 +98,17 @@ public class AddressBook {
         sortedList.forEach(System.out::println);
         System.out.println("---------------------");
     }
+
+    public void sortByCity() {
+        List<Person> personListSortedByCity = addresses.stream()
+                .sorted(Comparator.comparing(Person::getCity, String.CASE_INSENSITIVE_ORDER))
+                .toList();
+        personListSortedByCity.forEach(System.out::println);
+    }
+
+    public void sortByState() {
+        addresses.stream()
+                .sorted(Comparator.comparing(Person::getState, String.CASE_INSENSITIVE_ORDER))
+                .toList().forEach(System.out::println);
+    }
 }
