@@ -11,8 +11,9 @@ public class AddressBookMain {
         while (true) {
             System.out.println("1. Add Person");
             System.out.println("2. Edit Person");
-            System.out.println("3. Display All");
-            System.out.println("4. Exit");
+            System.out.println("3. Delete Person");
+            System.out.println("4. Display All");
+            System.out.println("5. Exit");
             System.out.print("Choose option: ");
 
             int choice = sc.nextInt();
@@ -55,10 +56,16 @@ public class AddressBookMain {
                     break;
 
                 case 3:
-                    addressBook.displayAddresses();
+                    System.out.print("Enter First Name to Delete: ");
+                    String deleteFirstName = sc.nextLine();
+                    addressBook.deletePerson(deleteFirstName);
                     break;
 
                 case 4:
+                    addressBook.displayAddresses();
+                    break;
+
+                case 5:
                     System.out.println("Exit");
                     System.exit(0);
                     return;
@@ -68,6 +75,4 @@ public class AddressBookMain {
             }
         }
     }
-
-
 }

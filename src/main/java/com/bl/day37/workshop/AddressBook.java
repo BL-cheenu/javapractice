@@ -61,4 +61,19 @@ public class AddressBook {
             System.out.println("Person not found!");
         }
     }
+
+    public void deletePerson(String deleteFirstName) {
+        boolean found = false;
+        for (Person person : addresses) {
+            if (person.getFirstName().equals(deleteFirstName)) {
+                found = true;
+                addresses.remove(person);
+                System.out.println("Person deleted successfully!");
+                break;
+            }
+        }
+        if (!found) {
+            System.out.println("Person not found!");
+        }
+    }
 }
