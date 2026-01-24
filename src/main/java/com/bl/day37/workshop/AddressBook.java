@@ -1,6 +1,7 @@
 package com.bl.day37.workshop;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -81,5 +82,20 @@ public class AddressBook {
         if (!found) {
             System.out.println("Person not found!");
         }
+    }
+
+    public void sortByName() {
+
+        List<Person> sortedList = addresses.stream()
+                .sorted(Comparator.comparing(Person::getFirstName, String.CASE_INSENSITIVE_ORDER))
+                .toList();
+
+        if (sortedList.isEmpty()) {
+            System.out.println("Nothing to Display!");
+            return;
+        }
+        System.out.println("----- Address Book (Sorted by Name) -----");
+        sortedList.forEach(System.out::println);
+        System.out.println("---------------------");
     }
 }

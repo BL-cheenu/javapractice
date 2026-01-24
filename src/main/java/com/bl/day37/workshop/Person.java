@@ -109,15 +109,9 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Person{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", address='" + address + '\'' +
-                ", city='" + city + '\'' +
-                ", state='" + state + '\'' +
-                ", zip='" + zip + '\'' +
-                ", email='" + email + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                '}';
+        return "Name: " + firstName + " " + lastName +
+                "Address: " + address + ", " + city + ", " + state + " - " + zip +
+                "email: " + email +
+                "Phone: " + phoneNumber;
     }
 }
