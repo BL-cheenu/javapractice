@@ -18,7 +18,9 @@ public class AddressBookMain {
             System.out.println("7. Sort by Zip");
             System.out.println("8. View Persons by City");
             System.out.println("9. View Persons by State");
-            System.out.println("10. Exit");
+            System.out.println("10. Search Person by City");
+            System.out.println("11. Search Person by State");
+            System.out.println("12. Exit");
             System.out.print("Choose option: ");
 
             int choice = sc.nextInt();
@@ -93,6 +95,16 @@ public class AddressBookMain {
                     break;
 
                 case 10:
+                    System.out.print("Enter City to search: ");
+                    addressBook.searchByCity(sc.nextLine());
+                    break;
+
+                case 11:
+                    System.out.print("Enter State to search: ");
+                    addressBook.searchByState(sc.nextLine());
+                    break;
+
+                case 12:
                     System.out.println("Exit");
                     System.exit(0);
                     return;

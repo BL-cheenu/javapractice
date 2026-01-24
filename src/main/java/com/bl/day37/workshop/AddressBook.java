@@ -1,6 +1,7 @@
 package com.bl.day37.workshop;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class AddressBook {
 
@@ -150,6 +151,33 @@ public class AddressBook {
             System.out.println(p);
             System.out.println("----------------------------------------");
         }
+    }
+
+    public void searchByCity(String city) {
+        List<Person> result = addresses.stream()
+                .filter(p -> p.getCity().equalsIgnoreCase(city))
+                .collect(Collectors.toList());
+
+        printSearchResult("City", city, result);
+    }
+
+    public void searchByState(String state) {
+        List<Person> result = addresses.stream()
+                .filter(p -> p.getState().equalsIgnoreCase(state))
+                .collect(Collectors.toList());
+        printSearchResult("State", state, result);
+    }
+
+    public void printSearchResult(String type, String value, List<Person> list) {
+        if (list.isEmpty()) {
+            System.out.println("No persons found in " + type + ": " + value);
+            return;
+        }
+        System.out.println("Persons found in " + type + ": " + value);
+        list.forEach(p -> {
+            System.out.println(p);
+            System.out.println("----------------------------------------");
+        });
     }
 
 }
