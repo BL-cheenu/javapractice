@@ -10,6 +10,11 @@ public class AddressBook {
 
     // UC1 & UC5
     public void addPerson(Person person) {
+        boolean isDuplicate = addresses.stream().anyMatch(existingPerson -> existingPerson.equals(person));
+        if (isDuplicate) {
+            System.out.println("This person already exists");
+            return;
+        }
         addresses.add(person);
         System.out.println("Person added successfully!");
     }

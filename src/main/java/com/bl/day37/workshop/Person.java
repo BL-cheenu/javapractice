@@ -1,5 +1,7 @@
 package com.bl.day37.workshop;
 
+import java.util.Objects;
+
 public class Person {
     private String firstName;
     private String lastName;
@@ -90,6 +92,19 @@ public class Person {
         System.out.println("Address: " + address + ", " + city + ", " + state + " - " + zip);
         System.out.println("email: " + email);
         System.out.println("Phone: " + phoneNumber);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Person)) return false;
+        Person person = (Person) o;
+        return firstName.equalsIgnoreCase(person.firstName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName.toLowerCase());
     }
 
     @Override
