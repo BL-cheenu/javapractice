@@ -1,9 +1,27 @@
 package com.bl.day37.workshop;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AddressBook {
 
-    public Contacts createContact() {
-        Contacts contacts = new Contacts("Arun", "Kumar", "12, Anna Nagar", "Chennai", "Tamil Nadu", "600001", "9876543210", "arunkumar@gmail.com");
-        return contacts;
+    List<Person> addresses = new ArrayList<>();
+
+    public void addPerson(Person person) {
+        addresses.add(person);
+        System.out.println("Person added successfully!");
+    }
+
+    public void displayAddresses() {
+        if (addresses.isEmpty()) {
+            System.out.println("Nothing to Display!");
+            return;
+        }
+
+        System.out.println("----- Address Book -----");
+        for (Person person : addresses) {
+            System.out.println(person);
+            System.out.println("----------------------");
+        }
     }
 }

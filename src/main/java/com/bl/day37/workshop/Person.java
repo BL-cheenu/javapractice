@@ -1,6 +1,6 @@
 package com.bl.day37.workshop;
 
-public class Contacts {
+public class Person {
     String firstName;
     String lastName;
     String address;
@@ -10,7 +10,7 @@ public class Contacts {
     String phoneNumber;
     String email;
 
-    public Contacts(String firstName, String lastName, String address, String city, String state, String zip, String phoneNumber, String email) {
+    public Person(String firstName, String lastName, String address, String city, String state, String zip, String phoneNumber, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -26,5 +26,19 @@ public class Contacts {
         System.out.println("Address: " + address + ", " + city + ", " + state + " - " + zip);
         System.out.println("email: " + email);
         System.out.println("Phone: " + phoneNumber);
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", zip='" + zip + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }
