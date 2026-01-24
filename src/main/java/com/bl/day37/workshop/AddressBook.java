@@ -8,6 +8,7 @@ public class AddressBook {
 
     List<Person> addresses = new ArrayList<>();
 
+    // UC1 & UC5
     public void addPerson(Person person) {
         addresses.add(person);
         System.out.println("Person added successfully!");
