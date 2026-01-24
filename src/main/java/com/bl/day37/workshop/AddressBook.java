@@ -1,13 +1,12 @@
 package com.bl.day37.workshop;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class AddressBook {
 
     List<Person> addresses = new ArrayList<>();
+    Map<String, List<Person>> cityMap = new HashMap<>();
+    Map<String, List<Person>> stateMap = new HashMap<>();
 
     // UC1 & UC5
     public void addPerson(Person person) {
@@ -17,6 +16,23 @@ public class AddressBook {
             return;
         }
         addresses.add(person);
+
+        if (cityMap.containsKey(person.getCity())) {
+            cityMap.get(person.getCity()).add(person);
+        } else {
+            List<Person> cityList = new ArrayList<>();
+            cityList.add(person);
+            cityMap.put(person.getCity(), cityList);
+        }
+
+        if (stateMap.containsKey(person.getState())) {
+            stateMap.get(person.getState()).add(person);
+        } else {
+            List<Person> stateList = new ArrayList<>();
+            stateList.add(person);
+            stateMap.put(person.getState(), stateList);
+        }
+
         System.out.println("Person added successfully!");
     }
 
@@ -111,4 +127,29 @@ public class AddressBook {
                 .sorted(Comparator.comparing(Person::getState, String.CASE_INSENSITIVE_ORDER))
                 .toList().forEach(System.out::println);
     }
+
+    public void viewPersonsByCity(String city) {
+        if (!cityMap.containsKey(city)) {
+            System.out.println("No persons found in city: " + city);
+            return;
+        }
+        System.out.println("Persons in City: " + city);
+        for (Person p : cityMap.get(city)) {
+            System.out.println(p);
+            System.out.println("----------------------------------------");
+        }
+    }
+
+    public void viewPersonsByState(String state) {
+        if (!stateMap.containsKey(state)) {
+            System.out.println("No persons found in state: " + state);
+            return;
+        }
+        System.out.println("Persons in State: " + state);
+        for (Person p : stateMap.get(state)) {
+            System.out.println(p);
+            System.out.println("----------------------------------------");
+        }
+    }
+
 }
