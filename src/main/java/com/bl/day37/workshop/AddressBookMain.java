@@ -20,7 +20,9 @@ public class AddressBookMain {
             System.out.println("9. View Persons by State");
             System.out.println("10. Search Person by City");
             System.out.println("11. Search Person by State");
-            System.out.println("12. Exit");
+            System.out.println("12. Write to JSON");
+            System.out.println("13. Read from JSON");
+            System.out.println("14. Exit");
             System.out.print("Choose option: ");
 
             int choice = sc.nextInt();
@@ -105,6 +107,14 @@ public class AddressBookMain {
                     break;
 
                 case 12:
+                    addressBook.writeToJson();
+                    break;
+
+                case 13:
+                    addressBook.readFromJson();
+                    break;
+
+                case 14:
                     System.out.println("Exit");
                     System.exit(0);
                     return;

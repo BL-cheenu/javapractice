@@ -1,10 +1,16 @@
 package com.bl.day37.workshop;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.*;
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class AddressBook {
-
+    private static final String FILE_PATH = "D:\\learning\\AddressBook.txt";
+    final Gson gson = new Gson();
     List<Person> addresses = new ArrayList<>();
     Map<String, List<Person>> cityMap = new HashMap<>();
     Map<String, List<Person>> stateMap = new HashMap<>();
@@ -180,4 +186,27 @@ public class AddressBook {
         });
     }
 
+    public void writeToJson() {
+        try (Writer writer = new FileWriter(FILE_PATH)) {
+            gson.toJson(addresses, writer);
+            System.out.println("Address Book written to JSON file.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void readFromJson() {
+        try (Reader reader = new FileReader(FILE_PATH)) {
+
+            Type listType = new TypeToken<List<Person>>() {}.getType();
+            addresses = gson.fromJson(reader, listType);
+
+            if (addresses == null) {
+                addresses = new ArrayList<>();
+            }
+            System.out.println("Address Book loaded from JSON file.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
