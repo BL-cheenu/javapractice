@@ -143,6 +143,43 @@ function searchByState(state) {
 
     return result;
 }
+function viewPersonsByCity(city) {
+
+    let persons = addressBook
+        .filter(function (person) {
+            return person.city === city;
+        })
+        .map(function (person) {
+            return person.firstName + " " + person.lastName;
+        });
+
+    if (persons.length === 0) {
+        console.log("No persons found in city :", city);
+    } else {
+        console.log("Persons in city", city, ":", persons);
+    }
+
+    return persons;
+}
+
+function viewPersonsByState(state) {
+
+    let persons = addressBook
+        .filter(function (person) {
+            return person.state === state;
+        })
+        .map(function (person) {
+            return person.firstName + " " + person.lastName;
+        });
+
+    if (persons.length === 0) {
+        console.log("No persons found in state :", state);
+    } else {
+        console.log("Persons in state", state, ":", persons);
+    }
+
+    return persons;
+}
 
 
 try {
@@ -200,6 +237,8 @@ try {
 
     searchByCity("Chennai");
     searchByState("Karnataka");
+    viewPersonsByCity("Chennai");
+    viewPersonsByState("Karnataka");
 
 } catch (error) {
     console.log("Error :", error.message);
