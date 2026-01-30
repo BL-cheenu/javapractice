@@ -224,6 +224,52 @@ function contactToString(contact) {
         ", " + contact.phone;
 }
 
+function sortByCity() {
+
+    addressBook.sort(function (person1, person2) {
+        let city1 = person1.city.toLowerCase();
+        let city2 = person2.city.toLowerCase();
+
+        if (city1 > city2) return 1;
+        if (city1 < city2) return -1;
+        return 0;
+    });
+
+    console.log("Contacts sorted by City:");
+    addressBook.forEach(function (person) {
+        console.log(person);
+    });
+}
+
+function sortByState() {
+
+    addressBook.sort(function (person1, person2) {
+        let state1 = person1.state.toLowerCase();
+        let state2 = person2.state.toLowerCase();
+
+        if (state1 > state2) return 1;
+        if (state1 < state2) return -1;
+        return 0;
+    });
+
+    console.log("Contacts sorted by State:");
+    addressBook.forEach(function (person) {
+        console.log(person);
+    });
+}
+
+function sortByZip() {
+
+    addressBook.sort(function (person1, person2) {
+        return person1.zip - person2.zip;
+    });
+
+    console.log("Contacts sorted by Zip:");
+    addressBook.forEach(function (person) {
+        console.log(person);
+    });
+}
+
 
 try {
     addContact("John",
@@ -286,6 +332,10 @@ try {
     countByState("Karnataka");
     sortContactsByName();
     console.log(addressBook);
+    sortByCity();
+    sortByState();
+    sortByZip();
+
 
 } catch (error) {
     console.log("Error :", error.message);
