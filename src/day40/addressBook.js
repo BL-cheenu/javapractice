@@ -57,6 +57,28 @@ function validateContact(contact) {
     }
 }
 
+// UC4: Find existing contact and edit it
+function editContact(firstName, updatedDetails) {
+    let contact = addressBook.find(function (person) {
+        return person.firstName === firstName;
+    });
+
+    if (!contact) {
+        console.log("Contact not found");
+        return;
+    }
+
+    contact.lastName = updatedDetails.lastName || contact.lastName;
+    contact.address = updatedDetails.address || contact.address;
+    contact.city = updatedDetails.city || contact.city;
+    contact.state = updatedDetails.state || contact.state;
+    contact.zip = updatedDetails.zip || contact.zip;
+    contact.phone = updatedDetails.phone || contact.phone;
+    contact.email = updatedDetails.email || contact.email;
+
+    validateContact(contact);
+}
+
 try {
     addContact("John",
         "Doe",
@@ -80,6 +102,12 @@ try {
     );
 
     console.log(addressBook);
+    editContact("John", {
+        city: "Bangalore",
+        phone: "9999999999"
+    });
+    console.log(addressBook);
+
 
 } catch (error) {
     console.log("Error :", error.message);
