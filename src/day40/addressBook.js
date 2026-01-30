@@ -201,6 +201,24 @@ function countByState(state) {
     return count;
 }
 
+function sortContactsByName() {
+
+    addressBook.sort(function (person1, person2) {
+        let name1 = person1.firstName.toLowerCase();
+        let name2 = person2.firstName.toLowerCase();
+
+        if (name1 > name2) return 1;
+        if (name1 < name2) return -1;
+        return 0;
+    });
+
+    console.log("Contacts sorted alphabetically by name:");
+    addressBook.forEach(function (person) {
+        console.log(contactToString(person));
+    });
+}
+
+
 try {
     addContact("John",
         "Doe",
@@ -260,6 +278,8 @@ try {
     viewPersonsByState("Karnataka");
     countByCity("Chennai");
     countByState("Karnataka");
+    sortContactsByName();
+    console.log(addressBook);
 
 } catch (error) {
     console.log("Error :", error.message);
