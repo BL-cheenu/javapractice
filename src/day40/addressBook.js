@@ -9,6 +9,13 @@ const emailPattern = /^[a-zA-Z0-9]+([._+-][a-zA-Z0-9]+)*@[a-zA-Z0-9]+\.[a-zA-Z]{
 
 // UC1: Create Contact + UC2: Validate Contact + UC3: Add to Address Book
 function addContact(firstName, lastName, address, city, state, zip, phone, email) {
+
+    if (isDuplicateContact(firstName, lastName)) {
+        console.log("Duplicate Contact Found");
+        return;
+    }
+
+
     let contact = {
         firstName: firstName,
         lastName: lastName,
@@ -100,6 +107,44 @@ function getContactCount() {
     return count;
 }
 
+function isDuplicateContact(firstName, lastName) {
+
+    let duplicate = addressBook.filter(function (person) {
+        return person.firstName === firstName &&
+            person.lastName === lastName;
+    });
+
+    return duplicate.length > 0;
+}
+
+function searchByCity(city) {
+    let result = addressBook.filter(function (person) {
+        return person.city === city;
+    });
+
+    if (result.length === 0) {
+        console.log("No contacts found in city :", city);
+    } else {
+        console.log("Contacts in city", city, ":", result);
+    }
+    return result;
+}
+function searchByState(state) {
+
+    let result = addressBook.filter(function (person) {
+        return person.state === state;
+    });
+
+    if (result.length === 0) {
+        console.log("No contacts found in state :", state);
+    } else {
+        console.log("Contacts in state", state, ":", result);
+    }
+
+    return result;
+}
+
+
 try {
     addContact("John",
         "Doe",
@@ -131,7 +176,30 @@ try {
     deleteContact("John");
     console.log(addressBook);
     getContactCount();
+    addContact(
+        "Alice",
+        "Smith",
+        "Park Avenue",
+        "Bangalore",
+        "Karnataka",
+        "560001",
+        "9123456780",
+        "alice.smith@email.com"
+    );
+    addContact(
+        "Alice",
+        "Smith",
+        "Park Avenue",
+        "Bangalore",
+        "Karnataka",
+        "560001",
+        "9123456780",
+        "alice.smith@email.com"
+    );
+    console.log(addressBook);
 
+    searchByCity("Chennai");
+    searchByState("Karnataka");
 
 } catch (error) {
     console.log("Error :", error.message);
