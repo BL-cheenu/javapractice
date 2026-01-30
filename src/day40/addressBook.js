@@ -181,6 +181,25 @@ function viewPersonsByState(state) {
     return persons;
 }
 
+function countByCity(city) {
+
+    let count = addressBook.filter(function (person) {
+        return person.city === city;
+    }).length;
+
+    console.log("Number of contacts in city", city, ":", count);
+    return count;
+}
+
+function countByState(state) {
+
+    let count = addressBook.filter(function (person) {
+        return person.state === state;
+    }).length;
+
+    console.log("Number of contacts in state", state, ":", count);
+    return count;
+}
 
 try {
     addContact("John",
@@ -239,6 +258,8 @@ try {
     searchByState("Karnataka");
     viewPersonsByCity("Chennai");
     viewPersonsByState("Karnataka");
+    countByCity("Chennai");
+    countByState("Karnataka");
 
 } catch (error) {
     console.log("Error :", error.message);
