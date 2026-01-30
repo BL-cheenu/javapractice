@@ -79,6 +79,27 @@ function editContact(firstName, updatedDetails) {
     validateContact(contact);
 }
 
+function deleteContact(firstName) {
+
+    let index = addressBook.findIndex(function (person) {
+        return person.firstName === firstName;
+    });
+
+    if (index === -1) {
+        console.log("Contact not found ");
+        return;
+    }
+
+    addressBook.splice(index, 1);
+    console.log("Contact Deleted Successfully");
+}
+
+function getContactCount() {
+    let count = addressBook.length;
+    console.log("Total Contacts :", count);
+    return count;
+}
+
 try {
     addContact("John",
         "Doe",
@@ -107,6 +128,9 @@ try {
         phone: "9999999999"
     });
     console.log(addressBook);
+    deleteContact("John");
+    console.log(addressBook);
+    getContactCount();
 
 
 } catch (error) {
