@@ -218,6 +218,12 @@ function sortContactsByName() {
     });
 }
 
+function contactToString(contact) {
+    return contact.firstName + " " + contact.lastName +
+        ", " + contact.city + ", " + contact.state +
+        ", " + contact.phone;
+}
+
 
 try {
     addContact("John",
