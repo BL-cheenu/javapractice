@@ -7,7 +7,7 @@ const zipPattern = /^[0-9]{6}$/;
 const phonePattern = /^[0-9]{10}$/;
 const emailPattern = /^[a-zA-Z0-9]+([._+-][a-zA-Z0-9]+)*@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/;
 
-// UC1: Create Contact + UC2: Validate Contact
+// UC1: Create Contact + UC2: Validate Contact + UC3: Add to Address Book
 function addContact(firstName, lastName, address, city, state, zip, phone, email) {
     let contact = {
         firstName: firstName,
@@ -67,7 +67,19 @@ try {
         "9876543210",
         "john.doe@email.com"
     );
-    console.log(addressBook[0]);
+
+    addContact(
+        "Alice",
+        "Smith",
+        "Park Avenue",
+        "Bangalore",
+        "Karnataka",
+        "560001",
+        "9123456780",
+        "alice.smith@email.com"
+    );
+
+    console.log(addressBook);
 
 } catch (error) {
     console.log("Error :", error.message);
