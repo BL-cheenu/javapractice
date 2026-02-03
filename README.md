@@ -139,6 +139,6 @@ Industry-ready coding & documentation practices
 ### January 31
 - **Assignment** – Sam Varghese
 
-### January 30
+### Febraury 2
 - **Day 41 – HTML, CSS and Flexbox Intro**
 - **Day 41 – Practice problems**
