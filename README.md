@@ -142,3 +142,12 @@ Industry-ready coding & documentation practices
 ### Febraury 2
 - **Day 41 – HTML, CSS and Flexbox Intro**
 - **Day 41 – Practice problems**
+- 
+### Febraury 3
+- **Day 42: HTML input forms and media**
+- **Day 42: Practice problems**
+- 
+- ### Febraury 4
+- **Day 43: Employee Payroll App - Add Employee Screen**
+- **Day 43 – Practice problems**
+- **Day 44: Employee Payroll App**
