@@ -142,7 +142,7 @@ Industry-ready coding & documentation practices
 ### Febraury 2
 - **Day 41 – HTML, CSS and Flexbox Intro**
 - **Day 41 – Practice problems**
-- 
+  
 ### Febraury 3
 - **Day 42: HTML input forms and media**
 - **Day 42: Practice problems**
