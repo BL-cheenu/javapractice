@@ -91,3 +91,14 @@ error-output {
 .btn-reset:hover {
   background: #374151;
 }
+
+/* UC 3 – UI feedback for validation */
+.input-invalid {
+  border: 2px solid red;
+  background-color: #fff0f0;
+}
+
+.input-valid {
+  border: 2px solid green;
+  background-color: #f0fff4;
+}
