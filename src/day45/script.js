@@ -1,10 +1,57 @@
-// EmployeePayrollData class
+// UC 6 – EmployeePayrollData class with Getters and Setters
+// Note: attributes start with underscore (_) due to getters/setters
+// When JSON.stringify is called, keys will appear as _name, _salary etc.
+
 class EmployeePayrollData {
   constructor(name, salary, department, startDate) {
+    // UC 6 – setters are called here, which store values in underscore properties
     this.name       = name;
     this.salary     = salary;
     this.department = department;
     this.startDate  = startDate;
+  }
+
+  // UC 6 – Getter and Setter for name
+  get name() {
+    return this._name;
+  }
+  set name(name) {
+    if (name === undefined || name.length === 0) {
+      throw new Error("Name is empty");
+    }
+    if (!/^[A-Z][a-zA-Z ]{2,}$/.test(name)) {
+      throw new Error("Name must start with capital letter and min 3 characters");
+    }
+    this._name = name;
+  }
+
+  // UC 6 – Getter and Setter for salary
+  get salary() {
+    return this._salary;
+  }
+  set salary(salary) {
+    this._salary = salary;
+  }
+
+  // UC 6 – Getter and Setter for department
+  get department() {
+    return this._department;
+  }
+  set department(department) {
+    this._department = department;
+  }
+
+  // UC 6 – Getter and Setter for startDate
+  get startDate() {
+    return this._startDate;
+  }
+  set startDate(startDate) {
+    this._startDate = startDate;
+  }
+
+  // toString for console logging
+  toString() {
+    return `Name: ${this._name}, Salary: ${this._salary}, Department: ${this._department}, Start Date: ${this._startDate}`;
   }
 }
 
@@ -22,7 +69,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
       return;
     }
     try {
-      (new EmployeePayrollData()).name = name.value;;
+      (new EmployeePayrollData(name.value, 0, '', ''));
       textError.textContent = "";
     } catch (e) {
       textError.textContent = e;
@@ -35,13 +82,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
   salary.addEventListener('input', function () {
     output.textContent = salary.value
-      ? "Selected salary: ₹" + Number(salary.value).toLocaleString('en-IN') + " / month"
+      ? `Selected salary: ₹${Number(salary.value).toLocaleString('en-IN')} / month`
       : "";
   });
 
 });
 
-// ── Helper: set invalid / valid UI on a field ─────────────────
+// ── Helper: set invalid / valid UI ───────────────────────────
 function setInvalidUI(element, isInvalid) {
   if (isInvalid) {
     element.classList.add('input-invalid');
@@ -56,7 +103,7 @@ function setValidUI(element) {
   element.classList.remove('input-invalid');
 }
 
-// ── UC 3 & UC 4 – save(): validate, create object, save to Local Storage ──
+// ── UC 3 & 4 & 6 – save() ────────────────────────────────────
 function save() {
   event.preventDefault();
 
@@ -74,14 +121,15 @@ function save() {
   const department = departmentEl.value;
   const startDate  = startDateEl.value;
 
-  // Validate Name
-  if (!/^[A-Z][a-zA-Z ]{2,}$/.test(name)) {
-    nameError.textContent = "Name must start with a capital letter and min 3 characters.";
-    setInvalidUI(nameEl, true);
-    isValid = false;
-  } else {
+  // Validate Name using setter
+  try {
+    new EmployeePayrollData(name, salary, department, startDate);
     nameError.textContent = "";
     setValidUI(nameEl);
+  } catch (e) {
+    nameError.textContent = e;
+    setInvalidUI(nameEl, true);
+    isValid = false;
   }
 
   // Validate Date
@@ -105,50 +153,38 @@ function save() {
 
   if (!isValid) return;
 
-  // UC 3 – Create EmployeePayrollData object
+  // UC 3 – Create EmployeePayrollData object (getters/setters used)
   const empData = new EmployeePayrollData(name, salary, department, startDate);
-  console.log("Employee Payroll Data: ", empData);
+  console.log("Employee Payroll Data: ", empData.toString());
 
-  // UC 4 – Save object to Local Storage (as a list)
+  // UC 4 & 6 – JSON.stringify stores keys as _name, _salary, etc. (underscore)
   const existing = localStorage.getItem('employeePayrollList');
   const records  = existing ? JSON.parse(existing) : [];
   records.push(empData);
   localStorage.setItem('employeePayrollList', JSON.stringify(records));
-  console.log("Saved to Local Storage list: ", records);
+  console.log("Saved to Local Storage (underscore keys): ", JSON.stringify(empData));
 
   alert(
-    "Employee record saved!\n\n" +
-    "Name       : " + empData.name + "\n" +
-    "Salary     : ₹" + Number(empData.salary).toLocaleString('en-IN') + " / month\n" +
-    "Department : " + empData.department + "\n" +
-    "Start Date : " + empData.startDate
+    `Employee record saved!\n\n` +
+    `Name       : ${empData.name}\n` +
+    `Salary     : ₹${Number(empData.salary).toLocaleString('en-IN')} / month\n` +
+    `Department : ${empData.department}\n` +
+    `Start Date : ${empData.startDate}`
   );
 }
 
-// ── UC 5 – resetForm(): reset form on clicking reset ─────────
+// ── UC 5 – resetForm() ───────────────────────────────────────
 function resetForm() {
-  // Clear all error messages
   document.querySelectorAll('.text-error')
           .forEach(el => el.textContent = "");
-
-  // Clear salary output display
   document.querySelector('.salary-output').textContent = "";
-
-  // Remove all valid / invalid UI classes from inputs
   document.querySelectorAll('.input-invalid, .input-valid')
           .forEach(el => el.classList.remove('input-invalid', 'input-valid'));
-
-  // Reset all select dropdowns to default
   document.querySelectorAll('select')
           .forEach(el => el.selectedIndex = 0);
-
-  // Reset all text / date inputs
   document.querySelectorAll('input[type="text"], input[type="date"]')
           .forEach(el => el.value = "");
-
-  // Uncheck all radio buttons
   document.querySelectorAll('input[type="radio"]')
           .forEach(el => el.checked = false);
-
   console.log("Form Reset");
 }
