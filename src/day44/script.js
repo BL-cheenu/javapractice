@@ -122,11 +122,30 @@ function save() {
   );
 }
 
-// ── resetForm() called by onreset ────────────────────────────
+// ── UC 5 – resetForm(): reset form on clicking reset ─────────
 function resetForm() {
-  document.querySelectorAll('.text-error').forEach(el => el.textContent = "");
+  // Clear all error messages
+  document.querySelectorAll('.text-error')
+    .forEach(el => el.textContent = "");
+
+  // Clear salary output display
   document.querySelector('.salary-output').textContent = "";
+
+  // Remove all valid / invalid UI classes from inputs
   document.querySelectorAll('.input-invalid, .input-valid')
     .forEach(el => el.classList.remove('input-invalid', 'input-valid'));
+
+  // Reset all select dropdowns to default
+  document.querySelectorAll('select')
+    .forEach(el => el.selectedIndex = 0);
+
+  // Reset all text / date inputs
+  document.querySelectorAll('input[type="text"], input[type="date"]')
+    .forEach(el => el.value = "");
+
+  // Uncheck all radio buttons
+  document.querySelectorAll('input[type="radio"]')
+    .forEach(el => el.checked = false);
+
   console.log("Form Reset");
 }
