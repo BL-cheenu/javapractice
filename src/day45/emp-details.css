@@ -141,3 +141,39 @@
 .empty-state.show { display: block; }
 .empty-icon { font-size: 48px; margin-bottom: 12px; }
 .empty-state p { font-size: 15px; margin-bottom: 20px; }
+
+/* UC 3 – Tabular format refinements */
+.td-serial {
+  color: #9ca3af;
+  font-size: 13px;
+  width: 40px;
+  text-align: center;
+}
+
+.td-name {
+  font-weight: 600;
+  color: #1a3c5e;
+}
+
+.td-date {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.emp-table thead th:last-child,
+.emp-table tbody td:last-child {
+  text-align: center;
+}
+
+/* Table border lines for cleaner tabular look */
+.emp-table {
+  border: 1px solid #e5e7eb;
+}
+
+.emp-table thead th {
+  border-right: 1px solid rgba(255,255,255,0.15);
+}
+
+.emp-table tbody td {
+  border-right: 1px solid #f3f4f6;
+}

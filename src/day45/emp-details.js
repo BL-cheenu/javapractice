@@ -1,9 +1,7 @@
-// UC 2 – Load Employee Details from Local Storage and render table
+// UC 3 – View Employee Payroll Details in Tabular Format
 
 window.addEventListener('DOMContentLoaded', () => {
-
   loadEmployeeTable();
-
 });
 
 function loadEmployeeTable() {
@@ -24,20 +22,40 @@ function loadEmployeeTable() {
   emptyState.classList.remove('show');
   tbody.innerHTML = "";
 
+  // UC 3 – Render each employee as a table row
   records.forEach((emp, index) => {
     const tr = document.createElement('tr');
+
+    // Alternate row color for readability
+    tr.style.background = index % 2 === 0 ? '#fff' : '#f8fafc';
+
     tr.innerHTML = `
-      <td>${index + 1}</td>
-      <td>${emp.name}</td>
+      <td class="td-serial">${index + 1}</td>
+      <td class="td-name">${emp.name}</td>
       <td><span class="dept-badge">${emp.department || '-'}</span></td>
       <td><span class="salary-badge">₹${Number(emp.salary).toLocaleString('en-IN')}</span></td>
-      <td>${emp.startDate || '-'}</td>
+      <td class="td-date">${formatDate(emp.startDate)}</td>
       <td>
-        <button class="action-btn btn-edit"   onclick="editRecord(${index})">Edit</button>
-        <button class="action-btn btn-delete" onclick="deleteRecord(${index})">Delete</button>
+        <button class="action-btn btn-edit"   onclick="editRecord(${index})">✏️ Edit</button>
+        <button class="action-btn btn-delete" onclick="deleteRecord(${index})">🗑️ Delete</button>
       </td>
     `;
     tbody.appendChild(tr);
+  });
+
+  // UC 3 – Update summary count
+  const countEl = document.querySelector('#empCount');
+  if (countEl) countEl.textContent = records.length;
+}
+
+// Format date as DD/MM/YYYY
+function formatDate(dateStr) {
+  if (!dateStr) return '-';
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('en-IN', {
+    day:   '2-digit',
+    month: '2-digit',
+    year:  'numeric'
   });
 }
 
@@ -61,7 +79,7 @@ function deleteRecord(index) {
   loadEmployeeTable();
 }
 
-// Edit – redirect to add-employee page with index (for future UC)
+// Edit – redirect to add-employee page with index
 function editRecord(index) {
   window.location.href = 'add-employee.html?edit=' + index;
 }

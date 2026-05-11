@@ -9,7 +9,7 @@
 </head>
 <body>
 
-  <!-- ── Header (same as other pages) ── -->
+  <!-- ── Header ── -->
   <header class="header">
     <div class="header-brand">
       <div class="header-logo">
@@ -30,19 +30,20 @@
     </nav>
   </header>
 
-  <!-- ── UC 2: Header Section with Employee Details + Add Employee button ── -->
   <main class="main-content">
 
-    <!-- Section Header -->
+    <!-- UC 2: Section Header with Add Employee button -->
     <div class="section-header">
       <div class="section-header-left">
         <h2 class="page-title">Employee Details</h2>
-        <p class="page-sub">Manage all employee payroll records</p>
+        <p class="page-sub">
+          Total Records: <strong id="empCount">0</strong>
+        </p>
       </div>
       <a href="add-employee.html" class="btn btn-add">+ Add Employee</a>
     </div>
 
-    <!-- Employee Details Table -->
+    <!-- UC 3: Employee Payroll Details in Tabular Format -->
     <div class="table-wrap">
       <table class="emp-table" id="empTable">
         <thead>
@@ -50,15 +51,17 @@
             <th>#</th>
             <th>Name</th>
             <th>Department</th>
-            <th>Salary</th>
+            <th>Salary / Month</th>
             <th>Start Date</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody id="empTableBody">
-          <!-- Rows loaded from Local Storage -->
+          <!-- UC 3 – Rows rendered dynamically from Local Storage -->
         </tbody>
       </table>
+
+      <!-- Empty state -->
       <div class="empty-state" id="emptyState">
         <div class="empty-icon">👥</div>
         <p>No employee records found.</p>
