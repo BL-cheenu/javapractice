@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Employee Details – Payroll System</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="emp-details.css"/>
+</head>
+<body>
+
+  <!-- ── Header (same as other pages) ── -->
+  <header class="header">
+    <div class="header-brand">
+      <div class="header-logo">
+        <span class="logo-dot dot-red"></span>
+        <span class="logo-dot dot-amber"></span>
+        <span class="logo-dot dot-green"></span>
+      </div>
+      <div>
+        <div class="header-title">BridgeLabz</div>
+        <div class="header-sub">Employability Delivered</div>
+      </div>
+    </div>
+    <div class="header-tag">Employee Payroll System</div>
+    <nav class="header-nav">
+      <a href="index.html"        class="nav-link">Home</a>
+      <a href="add-employee.html" class="nav-link">Add Employee</a>
+      <a href="emp-details.html"  class="nav-link active">Employee Details</a>
+    </nav>
+  </header>
+
+  <!-- ── UC 2: Header Section with Employee Details + Add Employee button ── -->
+  <main class="main-content">
+
+    <!-- Section Header -->
+    <div class="section-header">
+      <div class="section-header-left">
+        <h2 class="page-title">Employee Details</h2>
+        <p class="page-sub">Manage all employee payroll records</p>
+      </div>
+      <a href="add-employee.html" class="btn btn-add">+ Add Employee</a>
+    </div>
+
+    <!-- Employee Details Table -->
+    <div class="table-wrap">
+      <table class="emp-table" id="empTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Salary</th>
+            <th>Start Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="empTableBody">
+          <!-- Rows loaded from Local Storage -->
+        </tbody>
+      </table>
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">👥</div>
+        <p>No employee records found.</p>
+        <a href="add-employee.html" class="btn">+ Add First Employee</a>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="emp-details.js"></script>
+</body>
+</html>
