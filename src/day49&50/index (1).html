@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Address Book App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0e0e11;
+      --surface: #17171c;
+      --surface2: #1f1f27;
+      --surface3: #272730;
+      --border: #2e2e3a;
+      --border2: #3e3e50;
+      --accent: #7c6eff;
+      --accent2: #5e50d8;
+      --accent-glow: rgba(124,110,255,0.15);
+      --text: #f0f0f8;
+      --text2: #9595aa;
+      --text3: #5a5a70;
+      --red: #ff5b5b;
+      --green: #4cde8a;
+      --amber: #ffbe4a;
+      --tag-bg: rgba(124,110,255,0.12);
+      --tag-text: #a89fff;
+      --mono: 'DM Mono', monospace;
+      --sans: 'Syne', sans-serif;
+      --radius: 10px;
+      --radius-lg: 16px;
+    }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    /* ── HEADER ── */
+    header {
+      padding: 1.2rem 2rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .logo-icon {
+      width: 32px; height: 32px;
+      background: var(--accent);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+    }
+    .header-meta {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text3);
+    }
+    .total-badge {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      padding: 3px 10px;
+      border-radius: 20px;
+      border: 1px solid rgba(124,110,255,0.2);
+    }
+
+    /* ── LAYOUT ── */
+    .app {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      height: calc(100vh - 61px);
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .sidebar-header {
+      padding: 1.25rem 1.25rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .search-wrap {
+      position: relative;
+    }
+    .search-wrap svg {
+      position: absolute;
+      left: 12px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--text3);
+      pointer-events: none;
+    }
+    #searchInput {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 9px 12px 9px 36px;
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    #searchInput:focus { border-color: var(--accent); }
+    #searchInput::placeholder { color: var(--text3); }
+
+    .filter-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border2);
+      background: transparent;
+      color: var(--text2);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--tag-bg);
+      border-color: var(--accent);
+      color: var(--tag-text);
+    }
+
+    .contact-list {
+      overflow-y: auto;
+      flex: 1;
+      padding: 0.75rem 0;
+    }
+    .contact-list::-webkit-scrollbar { width: 4px; }
+    .contact-list::-webkit-scrollbar-track { background: transparent; }
+    .contact-list::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+    .group-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--text3);
+      letter-spacing: 0.1em;
+      padding: 6px 1.25rem 4px;
+      text-transform: uppercase;
+      position: sticky;
+      top: 0;
+      background: var(--surface);
+      z-index: 1;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 1.25rem;
+      cursor: pointer;
+      border-left: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .contact-item:hover { background: var(--surface2); }
+    .contact-item.active {
+      background: var(--surface2);
+      border-left-color: var(--accent);
+    }
+    .avatar {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      flex-shrink: 0;
+      letter-spacing: -0.02em;
+    }
+    .contact-info { flex: 1; min-width: 0; }
+    .contact-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .contact-preview {
+      font-size: 0.72rem;
+      color: var(--text3);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-family: var(--mono);
+      margin-top: 2px;
+    }
+    .fav-star {
+      font-size: 12px;
+      color: var(--amber);
+      opacity: 0.8;
+    }
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1.5rem;
+      color: var(--text3);
+      text-align: center;
+      gap: 10px;
+    }
+    .empty-state svg { opacity: 0.3; }
+    .empty-state p { font-size: 0.82rem; }
+
+    /* ── MAIN ── */
+    .main {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── TABS ── */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      background: var(--surface);
+    }
+    .tab-btn {
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 1rem 0;
+      margin-right: 2rem;
+      border: none;
+      background: transparent;
+      color: var(--text3);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+      letter-spacing: -0.01em;
+    }
+    .tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .tab-btn:hover:not(.active) { color: var(--text2); }
+
+    /* ── PANELS ── */
+    .panel { display: none; flex: 1; overflow-y: auto; padding: 2rem; }
+    .panel.active { display: block; }
+    .panel::-webkit-scrollbar { width: 4px; }
+    .panel::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+    /* ── DETAIL PANEL ── */
+    #detailPanel {
+      display: none;
+      flex: 1;
+      overflow-y: auto;
+      padding: 2rem;
+    }
+    #detailPanel::-webkit-scrollbar { width: 4px; }
+    #detailPanel::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+    .no-selection {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 12px;
+      color: var(--text3);
+    }
+    .no-selection svg { opacity: 0.2; }
+    .no-selection p { font-size: 0.85rem; }
+
+    /* ── DETAIL CARD ── */
+    .detail-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .detail-banner {
+      height: 90px;
+      background: linear-gradient(135deg, #2a234d 0%, #1a1a2e 100%);
+      position: relative;
+    }
+    .detail-avatar-wrap {
+      position: absolute;
+      bottom: -28px;
+      left: 1.5rem;
+    }
+    .detail-avatar {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: 3px solid var(--surface);
+    }
+    .detail-actions-top {
+      position: absolute;
+      top: 12px; right: 12px;
+      display: flex; gap: 8px;
+    }
+    .icon-btn {
+      width: 30px; height: 30px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: background 0.15s;
+      font-size: 14px;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,0.18); }
+    .icon-btn.danger:hover { background: rgba(255,91,91,0.3); border-color: var(--red); }
+    .icon-btn.fav-active { color: var(--amber); border-color: rgba(255,190,74,0.4); }
+
+    .detail-body { padding: 2.25rem 1.5rem 1.5rem; }
+    .detail-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 4px;
+    }
+    .detail-category {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--tag-text);
+      background: var(--tag-bg);
+      border: 1px solid rgba(124,110,255,0.2);
+      padding: 2px 10px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 1.25rem;
+    }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 1.25rem;
+    }
+    .detail-field {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.75rem 1rem;
+    }
+    .detail-field-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+    .detail-field-value {
+      font-size: 0.85rem;
+      color: var(--text);
+      word-break: break-all;
+    }
+    .detail-field-value a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .detail-field-value a:hover { text-decoration: underline; }
+
+    .detail-notes {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .detail-actions {
+      display: flex;
+      gap: 10px;
+    }
+    .btn {
+      padding: 9px 20px;
+      border-radius: var(--radius);
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s;
+      letter-spacing: -0.01em;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--accent2); }
+    .btn-secondary {
+      background: var(--surface3);
+      border: 1px solid var(--border2);
+      color: var(--text2);
+    }
+    .btn-secondary:hover { color: var(--text); border-color: var(--accent); }
+    .btn-danger {
+      background: rgba(255,91,91,0.12);
+      border: 1px solid rgba(255,91,91,0.3);
+      color: var(--red);
+    }
+    .btn-danger:hover { background: rgba(255,91,91,0.2); }
+
+    /* ── FORM ── */
+    .form-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .form-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+    .form-group.half { margin-bottom: 0; }
+    label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--text2);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    input[type="text"], input[type="email"], input[type="tel"],
+    input[type="date"], select, textarea {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 9px 12px;
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+    input.error, select.error, textarea.error {
+      border-color: var(--red);
+      background: rgba(255,91,91,0.05);
+    }
+    .error-msg {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--red);
+      display: none;
+    }
+    .error-msg.show { display: block; }
+    select option { background: var(--surface2); }
+    textarea { resize: vertical; min-height: 72px; }
+
+    .form-footer {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── TOAST ── */
+    .toast-container {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      display: flex; flex-direction: column; gap: 8px;
+      z-index: 999;
+    }
+    .toast {
+      background: var(--surface3);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      font-size: 0.82rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideIn 0.25s ease;
+      max-width: 280px;
+    }
+    .toast.success { border-left: 3px solid var(--green); }
+    .toast.error { border-left: 3px solid var(--red); }
+    .toast.info { border-left: 3px solid var(--accent); }
+    @keyframes slideIn {
+      from { transform: translateX(120%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes slideOut {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(120%); opacity: 0; }
+    }
+    .toast.removing { animation: slideOut 0.25s ease forwards; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 200;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .modal-overlay.show { opacity: 1; pointer-events: all; }
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      max-width: 480px;
+      width: 90%;
+      transform: translateY(20px);
+      transition: transform 0.2s;
+    }
+    .modal-overlay.show .modal { transform: translateY(0); }
+    .modal h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+    .modal p { font-size: 0.85rem; color: var(--text2); margin-bottom: 1.25rem; }
+    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+    /* ── STATS ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 1.5rem;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.9rem 1rem;
+    }
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+    .stat-value {
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+    .stat-card.accent .stat-value { color: var(--accent); }
+    .stat-card.green .stat-value { color: var(--green); }
+    .stat-card.amber .stat-value { color: var(--amber); }
+
+    /* ── LOADING ── */
+    .loader {
+      display: inline-block;
+      width: 14px; height: 14px;
+      border: 2px solid var(--border2);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── ASYNC STATUS ── */
+    .async-bar {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text3);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .async-status { color: var(--green); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar {
+        display: none;
+        position: fixed;
+        inset: 61px 0 0 0;
+        z-index: 50;
+        width: 100%;
+      }
+      .sidebar.mobile-open { display: flex; }
+      .mobile-menu-btn { display: flex !important; }
+      .detail-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: repeat(2,1fr); }
+      .panel { padding: 1rem; }
+    }
+    .mobile-menu-btn {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 34px; height: 34px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    /* ── SECTION BADGE ── */
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--text3);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3px 10px;
+      margin-bottom: 1.25rem;
+    }
+    .section-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+
+    /* ── EDIT FORM OVERLAY ── */
+    .edit-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.65);
+      z-index: 150;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .edit-overlay.show { opacity: 1; pointer-events: all; }
+    .edit-modal {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      max-width: 560px;
+      width: 95%;
+      max-height: 90vh;
+      overflow-y: auto;
+      transform: scale(0.95);
+      transition: transform 0.2s;
+    }
+    .edit-overlay.show .edit-modal { transform: scale(1); }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">📒</div>
+    Address Book
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <span class="total-badge" id="totalBadge">0 contacts</span>
+    <span class="header-meta">Workshop Project</span>
+    <button class="mobile-menu-btn" id="mobileMenuBtn" title="Toggle contact list">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="search-wrap">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="searchInput" placeholder="Search contacts…" autocomplete="off" />
+      </div>
+      <div class="filter-row">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="favorites">★ Favs</button>
+        <button class="filter-btn" data-filter="Work">Work</button>
+        <button class="filter-btn" data-filter="Personal">Personal</button>
+        <button class="filter-btn" data-filter="Family">Family</button>
+      </div>
+    </div>
+    <div class="contact-list" id="contactList"></div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main" id="mainArea">
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="view">Contact Detail</button>
+      <button class="tab-btn" data-tab="add">Add Contact</button>
+      <button class="tab-btn" data-tab="stats">Stats</button>
+    </div>
+
+    <!-- VIEW / DETAIL -->
+    <div class="panel active" id="tabView">
+      <div class="no-selection" id="noSelection">
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <p>Select a contact to view details</p>
+      </div>
+      <div id="detailContent" style="display:none;"></div>
+    </div>
+
+    <!-- ADD -->
+    <div class="panel" id="tabAdd">
+      <div class="section-badge"><span class="section-dot"></span> Section 1 — Add Contact Form</div>
+      <div class="form-card">
+        <div class="form-title">New Contact</div>
+        <div class="form-row">
+          <div class="form-group half">
+            <label for="fname">First Name *</label>
+            <input type="text" id="fname" placeholder="John" />
+            <span class="error-msg" id="fnameErr">Required</span>
+          </div>
+          <div class="form-group half">
+            <label for="lname">Last Name *</label>
+            <input type="text" id="lname" placeholder="Doe" />
+            <span class="error-msg" id="lnameErr">Required</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group half">
+            <label for="email">Email *</label>
+            <input type="email" id="email" placeholder="john@example.com" />
+            <span class="error-msg" id="emailErr">Valid email required</span>
+          </div>
+          <div class="form-group half">
+            <label for="phone">Phone *</label>
+            <input type="tel" id="phone" placeholder="+1 555 000 0000" />
+            <span class="error-msg" id="phoneErr">Required</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="address">Address</label>
+          <input type="text" id="address" placeholder="123 Main St, City, State" />
+        </div>
+        <div class="form-row">
+          <div class="form-group half">
+            <label for="category">Category</label>
+            <select id="category">
+              <option value="Personal">Personal</option>
+              <option value="Work">Work</option>
+              <option value="Family">Family</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group half">
+            <label for="birthday">Birthday</label>
+            <input type="date" id="birthday" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="notes">Notes</label>
+          <textarea id="notes" placeholder="Any additional notes…"></textarea>
+        </div>
+        <div class="form-footer">
+          <button class="btn btn-secondary" id="clearFormBtn">Clear</button>
+          <button class="btn btn-primary" id="saveContactBtn">
+            <span id="saveBtnText">Save Contact</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="panel" id="tabStats">
+      <div class="section-badge"><span class="section-dot"></span> Section 2 — Async Data + Analytics</div>
+      <div class="async-bar" id="asyncBar">
+        <div class="loader" id="asyncLoader"></div>
+        <span id="asyncText">Loading contacts from local storage…</span>
+      </div>
+      <div class="stats-row" id="statsRow">
+        <div class="stat-card accent">
+          <div class="stat-label">Total</div>
+          <div class="stat-value" id="s-total">0</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-label">Favorites</div>
+          <div class="stat-value" id="s-favs">0</div>
+        </div>
+        <div class="stat-card amber">
+          <div class="stat-label">Work</div>
+          <div class="stat-value" id="s-work">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Family</div>
+          <div class="stat-value" id="s-family">0</div>
+        </div>
+      </div>
+      <div class="form-card" style="max-width:640px;margin:0 auto;">
+        <div class="form-title" style="font-size:0.95rem;margin-bottom:1rem;">Category Breakdown</div>
+        <div id="catBreakdown" style="display:flex;flex-direction:column;gap:8px;"></div>
+        <div style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border);font-family:var(--mono);font-size:0.7rem;color:var(--text3);">
+          Data persisted via <span style="color:var(--tag-text);">localStorage</span> · Async/Promise simulation active
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- DELETE CONFIRM MODAL -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal">
+    <h3>Delete Contact?</h3>
+    <p>This action cannot be undone. The contact will be permanently removed from your address book.</p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" id="cancelDelete">Cancel</button>
+      <button class="btn btn-danger" id="confirmDelete">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="edit-overlay" id="editOverlay">
+  <div class="edit-modal">
+    <div class="form-title">Edit Contact</div>
+    <div class="form-row">
+      <div class="form-group half">
+        <label for="eFname">First Name *</label>
+        <input type="text" id="eFname" />
+        <span class="error-msg" id="eFnameErr">Required</span>
+      </div>
+      <div class="form-group half">
+        <label for="eLname">Last Name *</label>
+        <input type="text" id="eLname" />
+        <span class="error-msg" id="eLnameErr">Required</span>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group half">
+        <label for="eEmail">Email *</label>
+        <input type="email" id="eEmail" />
+        <span class="error-msg" id="eEmailErr">Valid email required</span>
+      </div>
+      <div class="form-group half">
+        <label for="ePhone">Phone</label>
+        <input type="tel" id="ePhone" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="eAddress">Address</label>
+      <input type="text" id="eAddress" />
+    </div>
+    <div class="form-row">
+      <div class="form-group half">
+        <label for="eCategory">Category</label>
+        <select id="eCategory">
+          <option value="Personal">Personal</option>
+          <option value="Work">Work</option>
+          <option value="Family">Family</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="form-group half">
+        <label for="eBirthday">Birthday</label>
+        <input type="date" id="eBirthday" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="eNotes">Notes</label>
+      <textarea id="eNotes"></textarea>
+    </div>
+    <div class="form-footer">
+      <button class="btn btn-secondary" id="cancelEdit">Cancel</button>
+      <button class="btn btn-primary" id="saveEdit">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ─── CONSTANTS & STATE ───────────────────────────────────────
+const LS_KEY = 'addressBook_v1';
+let contacts = [];
+let activeId = null;
+let deleteTargetId = null;
+let currentFilter = 'all';
+let editTargetId = null;
+
+// Avatar colors
+const COLORS = [
+  { bg: '#2d1f7a', text: '#a89fff' },
+  { bg: '#1a3d2b', text: '#4cde8a' },
+  { bg: '#3d1a1a', text: '#ff9999' },
+  { bg: '#2a2a1a', text: '#ffbe4a' },
+  { bg: '#1a2f3d', text: '#7abfff' },
+  { bg: '#2e1a3d', text: '#d09aff' },
+  { bg: '#1a3535', text: '#5de8d8' },
+];
+function getColor(name) {
+  const idx = (name.charCodeAt(0) + (name.charCodeAt(1) || 0)) % COLORS.length;
+  return COLORS[idx];
+}
+function initials(c) {
+  return ((c.fname[0] || '') + (c.lname[0] || '')).toUpperCase();
+}
+
+// ─── LOCAL STORAGE ───────────────────────────────────────────
+function loadContacts() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch { return []; }
+}
+function saveContacts() {
+  localStorage.setItem(LS_KEY, JSON.stringify(contacts));
+}
+
+// ─── ASYNC SIMULATION (Promise + async/await) ─────────────────
+function asyncLoadContacts() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(loadContacts());
+    }, 800);
+  });
+}
+
+async function initApp() {
+  const bar = document.getElementById('asyncBar');
+  const loaderEl = document.getElementById('asyncLoader');
+  const asyncText = document.getElementById('asyncText');
+  asyncText.textContent = 'Loading contacts from local storage…';
+
+  contacts = await asyncLoadContacts();
+
+  loaderEl.style.display = 'none';
+  asyncText.innerHTML = `<span class="async-status">✓</span> ${contacts.length} contact(s) loaded successfully`;
+
+  if (contacts.length === 0) {
+    await seedDefaults();
+  }
+
+  renderList();
+  updateStats();
+  updateBadge();
+}
+
+async function seedDefaults() {
+  // Simulate async fetch of seed data (AJAX simulation via Promise)
+  const seed = await new Promise(resolve => {
+    setTimeout(() => resolve([
+      { id: uid(), fname: 'Alice', lname: 'Johnson', email: 'alice@example.com', phone: '+1 555 234 5678', address: '42 Oak Street, Boston, MA', category: 'Work', birthday: '1990-03-15', notes: 'Project manager at NovaTech.', favorite: true, created: Date.now() },
+      { id: uid(), fname: 'Bob', lname: 'Martinez', email: 'bob.m@gmail.com', phone: '+1 555 876 5432', address: '7 Pine Ave, Austin, TX', category: 'Personal', birthday: '1985-07-22', notes: 'College friend. Loves hiking.', favorite: false, created: Date.now() },
+      { id: uid(), fname: 'Carol', lname: 'Smith', email: 'carol.smith@family.net', phone: '+1 555 111 2233', address: '99 Maple Dr, Seattle, WA', category: 'Family', birthday: '1962-11-01', notes: '', favorite: true, created: Date.now() },
+      { id: uid(), fname: 'David', lname: 'Lee', email: 'dlee@workco.io', phone: '+1 555 444 5566', address: '', category: 'Work', birthday: '', notes: 'Backend engineer. Contact for API questions.', favorite: false, created: Date.now() },
+      { id: uid(), fname: 'Emma', lname: 'Brown', email: 'emma.b@personal.co', phone: '+1 555 999 0011', address: '15 Sunset Blvd, Miami, FL', category: 'Personal', birthday: '1998-06-30', notes: 'Met at the 2023 hackathon.', favorite: false, created: Date.now() },
+    ]), 300);
+  });
+  contacts = seed;
+  saveContacts();
+}
+
+function uid() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+}
+
+// ─── RENDER CONTACT LIST ─────────────────────────────────────
+function getFiltered() {
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  return contacts
+    .filter(c => {
+      if (currentFilter === 'favorites') return c.favorite;
+      if (currentFilter !== 'all') return c.category === currentFilter;
+      return true;
+    })
+    .filter(c => {
+      if (!q) return true;
+      return `${c.fname} ${c.lname} ${c.email} ${c.phone} ${c.category}`.toLowerCase().includes(q);
+    })
+    .sort((a, b) => a.lname.localeCompare(b.lname));
+}
+
+function renderList() {
+  const list = document.getElementById('contactList');
+  const filtered = getFiltered();
+  list.innerHTML = '';
+
+  if (filtered.length === 0) {
+    list.innerHTML = `<div class="empty-state">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <p>No contacts found</p>
+    </div>`;
+    return;
+  }
+
+  // Group by first letter of last name
+  const groups = {};
+  filtered.forEach(c => {
+    const letter = c.lname[0]?.toUpperCase() || '#';
+    if (!groups[letter]) groups[letter] = [];
+    groups[letter].push(c);
+  });
+
+  Object.keys(groups).sort().forEach(letter => {
+    const label = document.createElement('div');
+    label.className = 'group-label';
+    label.textContent = letter;
+    list.appendChild(label);
+
+    groups[letter].forEach(c => {
+      const col = getColor(c.fname + c.lname);
+      const item = document.createElement('div');
+      item.className = 'contact-item' + (c.id === activeId ? ' active' : '');
+      item.dataset.id = c.id;
+      item.innerHTML = `
+        <div class="avatar" style="background:${col.bg};color:${col.text}">${initials(c)}</div>
+        <div class="contact-info">
+          <div class="contact-name">${c.fname} ${c.lname}${c.favorite ? ' <span class="fav-star">★</span>' : ''}</div>
+          <div class="contact-preview">${c.email}</div>
+        </div>
+      `;
+      item.addEventListener('click', () => selectContact(c.id));
+      list.appendChild(item);
+    });
+  });
+}
+
+// ─── SELECT & DETAIL ─────────────────────────────────────────
+function selectContact(id) {
+  activeId = id;
+  renderList();
+  renderDetail();
+  // Switch to detail tab
+  switchTab('view');
+  // Close sidebar on mobile
+  document.getElementById('sidebar').classList.remove('mobile-open');
+}
+
+function renderDetail() {
+  const c = contacts.find(x => x.id === activeId);
+  const noSel = document.getElementById('noSelection');
+  const dc = document.getElementById('detailContent');
+  if (!c) { noSel.style.display = 'flex'; dc.style.display = 'none'; return; }
+  noSel.style.display = 'none';
+  dc.style.display = 'block';
+
+  const col = getColor(c.fname + c.lname);
+  dc.innerHTML = `
+    <div class="detail-card">
+      <div class="detail-banner">
+        <div class="detail-avatar-wrap">
+          <div class="detail-avatar" style="background:${col.bg};color:${col.text}">${initials(c)}</div>
+        </div>
+        <div class="detail-actions-top">
+          <button class="icon-btn ${c.favorite ? 'fav-active' : ''}" title="Toggle favorite" id="favBtn">★</button>
+          <button class="icon-btn" title="Edit contact" id="editBtn">✎</button>
+          <button class="icon-btn danger" title="Delete contact" id="delBtn">🗑</button>
+        </div>
+      </div>
+      <div class="detail-body">
+        <div class="detail-name">${c.fname} ${c.lname}</div>
+        <div class="detail-category">${c.category}</div>
+        <div class="detail-grid">
+          <div class="detail-field">
+            <div class="detail-field-label">Email</div>
+            <div class="detail-field-value"><a href="mailto:${c.email}">${c.email}</a></div>
+          </div>
+          <div class="detail-field">
+            <div class="detail-field-label">Phone</div>
+            <div class="detail-field-value"><a href="tel:${c.phone}">${c.phone || '—'}</a></div>
+          </div>
+          <div class="detail-field">
+            <div class="detail-field-label">Address</div>
+            <div class="detail-field-value">${c.address || '—'}</div>
+          </div>
+          <div class="detail-field">
+            <div class="detail-field-label">Birthday</div>
+            <div class="detail-field-value">${c.birthday ? new Date(c.birthday + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '—'}</div>
+          </div>
+        </div>
+        ${c.notes ? `<div class="detail-notes"><div class="detail-field-label" style="margin-bottom:6px">Notes</div><div style="font-size:0.85rem;color:var(--text2);line-height:1.6">${c.notes}</div></div>` : ''}
+        <div class="detail-actions">
+          <button class="btn btn-primary" id="detailEditBtn">Edit Contact</button>
+          <button class="btn btn-secondary" id="detailFavBtn">${c.favorite ? 'Unfavorite' : 'Favorite'}</button>
+          <button class="btn btn-danger" id="detailDelBtn">Delete</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Wire buttons
+  document.getElementById('favBtn').addEventListener('click', () => toggleFav(c.id));
+  document.getElementById('editBtn').addEventListener('click', () => openEdit(c.id));
+  document.getElementById('delBtn').addEventListener('click', () => promptDelete(c.id));
+  document.getElementById('detailEditBtn').addEventListener('click', () => openEdit(c.id));
+  document.getElementById('detailFavBtn').addEventListener('click', () => toggleFav(c.id));
+  document.getElementById('detailDelBtn').addEventListener('click', () => promptDelete(c.id));
+}
+
+// ─── TOGGLE FAVORITE ─────────────────────────────────────────
+function toggleFav(id) {
+  const c = contacts.find(x => x.id === id);
+  if (!c) return;
+  c.favorite = !c.favorite;
+  saveContacts();
+  renderList();
+  renderDetail();
+  updateStats();
+  showToast(c.favorite ? '★ Added to favorites' : 'Removed from favorites', 'info');
+}
+
+// ─── DELETE ──────────────────────────────────────────────────
+function promptDelete(id) {
+  deleteTargetId = id;
+  document.getElementById('deleteModal').classList.add('show');
+}
+document.getElementById('cancelDelete').addEventListener('click', () => {
+  document.getElementById('deleteModal').classList.remove('show');
+  deleteTargetId = null;
+});
+document.getElementById('confirmDelete').addEventListener('click', () => {
+  if (!deleteTargetId) return;
+  contacts = contacts.filter(c => c.id !== deleteTargetId);
+  saveContacts();
+  if (activeId === deleteTargetId) {
+    activeId = null;
+    document.getElementById('noSelection').style.display = 'flex';
+    document.getElementById('detailContent').style.display = 'none';
+  }
+  deleteTargetId = null;
+  document.getElementById('deleteModal').classList.remove('show');
+  renderList();
+  updateStats();
+  updateBadge();
+  showToast('Contact deleted', 'error');
+});
+
+// ─── ADD CONTACT ─────────────────────────────────────────────
+function validateAdd() {
+  let ok = true;
+  const fields = [
+    { id: 'fname', err: 'fnameErr', check: v => v.trim().length > 0 },
+    { id: 'lname', err: 'lnameErr', check: v => v.trim().length > 0 },
+    { id: 'email', err: 'emailErr', check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) },
+    { id: 'phone', err: 'phoneErr', check: v => v.trim().length > 0 },
+  ];
+  fields.forEach(({ id, err, check }) => {
+    const input = document.getElementById(id);
+    const errEl = document.getElementById(err);
+    const valid = check(input.value);
+    input.classList.toggle('error', !valid);
+    errEl.classList.toggle('show', !valid);
+    if (!valid) ok = false;
+  });
+  return ok;
+}
+
+document.getElementById('saveContactBtn').addEventListener('click', async () => {
+  if (!validateAdd()) return;
+  const btn = document.getElementById('saveContactBtn');
+  const txt = document.getElementById('saveBtnText');
+  btn.disabled = true;
+  txt.innerHTML = '<span class="loader"></span>';
+
+  // Simulate async save (Promise)
+  await new Promise(r => setTimeout(r, 600));
+
+  const newContact = {
+    id: uid(),
+    fname: document.getElementById('fname').value.trim(),
+    lname: document.getElementById('lname').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    phone: document.getElementById('phone').value.trim(),
+    address: document.getElementById('address').value.trim(),
+    category: document.getElementById('category').value,
+    birthday: document.getElementById('birthday').value,
+    notes: document.getElementById('notes').value.trim(),
+    favorite: false,
+    created: Date.now(),
+  };
+
+  contacts.push(newContact);
+  saveContacts();
+  renderList();
+  updateStats();
+  updateBadge();
+  clearAddForm();
+  selectContact(newContact.id);
+  btn.disabled = false;
+  txt.textContent = 'Save Contact';
+  showToast(`${newContact.fname} added successfully`, 'success');
+});
+
+document.getElementById('clearFormBtn').addEventListener('click', clearAddForm);
+
+function clearAddForm() {
+  ['fname','lname','email','phone','address','birthday','notes'].forEach(id => {
+    document.getElementById(id).value = '';
+    document.getElementById(id).classList.remove('error');
+  });
+  document.getElementById('category').value = 'Personal';
+  ['fnameErr','lnameErr','emailErr','phoneErr'].forEach(id => {
+    document.getElementById(id).classList.remove('show');
+  });
+}
+
+// ─── EDIT ────────────────────────────────────────────────────
+function openEdit(id) {
+  editTargetId = id;
+  const c = contacts.find(x => x.id === id);
+  if (!c) return;
+  document.getElementById('eFname').value = c.fname;
+  document.getElementById('eLname').value = c.lname;
+  document.getElementById('eEmail').value = c.email;
+  document.getElementById('ePhone').value = c.phone;
+  document.getElementById('eAddress').value = c.address;
+  document.getElementById('eCategory').value = c.category;
+  document.getElementById('eBirthday').value = c.birthday;
+  document.getElementById('eNotes').value = c.notes;
+  document.getElementById('editOverlay').classList.add('show');
+}
+
+document.getElementById('cancelEdit').addEventListener('click', () => {
+  document.getElementById('editOverlay').classList.remove('show');
+  editTargetId = null;
+});
+
+document.getElementById('saveEdit').addEventListener('click', async () => {
+  const eFname = document.getElementById('eFname');
+  const eLname = document.getElementById('eLname');
+  const eEmail = document.getElementById('eEmail');
+  let ok = true;
+  [[eFname, 'eFnameErr', v => v.trim().length > 0],
+   [eLname, 'eLnameErr', v => v.trim().length > 0],
+   [eEmail, 'eEmailErr', v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim())]
+  ].forEach(([el, errId, fn]) => {
+    const v = el.value;
+    const valid = fn(v);
+    el.classList.toggle('error', !valid);
+    document.getElementById(errId).classList.toggle('show', !valid);
+    if (!valid) ok = false;
+  });
+  if (!ok) return;
+
+  const btn = document.getElementById('saveEdit');
+  btn.textContent = 'Saving…';
+  btn.disabled = true;
+  await new Promise(r => setTimeout(r, 500));
+
+  const c = contacts.find(x => x.id === editTargetId);
+  if (c) {
+    c.fname = eFname.value.trim();
+    c.lname = eLname.value.trim();
+    c.email = eEmail.value.trim();
+    c.phone = document.getElementById('ePhone').value.trim();
+    c.address = document.getElementById('eAddress').value.trim();
+    c.category = document.getElementById('eCategory').value;
+    c.birthday = document.getElementById('eBirthday').value;
+    c.notes = document.getElementById('eNotes').value.trim();
+    saveContacts();
+    renderList();
+    renderDetail();
+    updateStats();
+  }
+  document.getElementById('editOverlay').classList.remove('show');
+  btn.textContent = 'Save Changes';
+  btn.disabled = false;
+  editTargetId = null;
+  showToast('Contact updated', 'success');
+});
+
+// ─── SEARCH & FILTER ──────────────────────────────────────────
+document.getElementById('searchInput').addEventListener('input', renderList);
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderList();
+  });
+});
+
+// ─── TABS ────────────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab' + name.charAt(0).toUpperCase() + name.slice(1)).classList.add('active');
+}
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    switchTab(btn.dataset.tab);
+    if (btn.dataset.tab === 'stats') updateStats();
+  });
+});
+
+// ─── STATS ───────────────────────────────────────────────────
+function updateStats() {
+  document.getElementById('s-total').textContent = contacts.length;
+  document.getElementById('s-favs').textContent = contacts.filter(c => c.favorite).length;
+  document.getElementById('s-work').textContent = contacts.filter(c => c.category === 'Work').length;
+  document.getElementById('s-family').textContent = contacts.filter(c => c.category === 'Family').length;
+
+  const cats = {};
+  contacts.forEach(c => { cats[c.category] = (cats[c.category] || 0) + 1; });
+  const bd = document.getElementById('catBreakdown');
+  bd.innerHTML = '';
+  const catColors = { Work: '#7c6eff', Personal: '#4cde8a', Family: '#ffbe4a', Other: '#9595aa' };
+  Object.entries(cats).forEach(([cat, count]) => {
+    const pct = contacts.length ? Math.round((count / contacts.length) * 100) : 0;
+    bd.innerHTML += `
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:5px;">
+          <span style="color:var(--text2)">${cat}</span>
+          <span style="font-family:var(--mono);color:${catColors[cat]||'#9595aa'}">${count} · ${pct}%</span>
+        </div>
+        <div style="background:var(--surface3);border-radius:4px;height:6px;overflow:hidden;">
+          <div style="width:${pct}%;height:100%;background:${catColors[cat]||'#9595aa'};border-radius:4px;transition:width 0.5s ease;"></div>
+        </div>
+      </div>
+    `;
+  });
+  if (Object.keys(cats).length === 0) {
+    bd.innerHTML = '<p style="font-size:0.82rem;color:var(--text3);">No contacts yet. Add some!</p>';
+  }
+}
+
+function updateBadge() {
+  const b = document.getElementById('totalBadge');
+  b.textContent = `${contacts.length} contact${contacts.length !== 1 ? 's' : ''}`;
+}
+
+// ─── MOBILE MENU ─────────────────────────────────────────────
+document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('mobile-open');
+});
+
+// ─── TOAST ───────────────────────────────────────────────────
+function showToast(msg, type = 'info') {
+  const tc = document.getElementById('toastContainer');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  const icon = { success: '✓', error: '✕', info: 'ℹ' }[type] || 'ℹ';
+  t.innerHTML = `<span style="font-size:14px">${icon}</span><span>${msg}</span>`;
+  tc.appendChild(t);
+  setTimeout(() => {
+    t.classList.add('removing');
+    setTimeout(() => t.remove(), 250);
+  }, 2800);
+}
+
+// ─── INIT ────────────────────────────────────────────────────
+initApp();
+</script>
+</body>
+</html>
